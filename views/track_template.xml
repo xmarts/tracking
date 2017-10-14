@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="index" name="Tracking Index">&lt;!DOCTYPE html&gt;
+<html>
+    <head>
+        <title>welcome tracking</title>
+
+
+    </head>
+    <body>
+        WELCOME A XLTRACK
+    </body>
+</html>
+</template>
+</odoo>
