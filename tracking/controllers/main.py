@@ -3,7 +3,6 @@ import logging
 
 from odoo import http
 from odoo.http import request
-from modules.tracking.odooclient import client
 import json
 from collections import OrderedDict
 
