@@ -18,15 +18,15 @@ class trackController(http.Controller):
             'clientes_dirs': [],
             'productos': [],
             'estados': [],
-            'paises': [],
         }
         try:
-            if request.params['CAT_CL'] or request.params['CAT_CLD'] or request.params['CAT_P'] or request.params['CAT_ES'] or request.params['CAT_PA'] :
+            if request.params['CAT_CL'] or request.params['CAT_CLD'] or request.params['CAT_P'] or request.params['CAT_ES']  :
                 valsproduct = {}
                 vals = {}
                 valscld = {}
                 valsstate = {}
                 valspaises = {}
+
                 ####################CLIENTES#####################################
                 partner_model = request.env['res.partner']
                 fecha_inicio = str(request.params['CAT_CL']) + '.0'
@@ -106,27 +106,25 @@ class trackController(http.Controller):
                             datastate: insertstate
                         }
                 #####################Paises###########################
-                paises_model = request.env['res.country']
-                fechapaises_inicio = str(request.params['CAT_PA']) + '.0'
-                paises_ids = estado_model.search([('write_date', '>=', fechapaises_inicio)])
-                contpaises = str(len(state_ids))
-                datapaises= str(request.params['CAT_PA'] + ' ' + contpaises)
-                if paises_ids:
-                    insertpaises = ""
-                    for pais in paises_ids:
-                        print("valor de fecha pais" + pr.write_date)
+                #paises_model = request.env['res.country']
+                #fechapaises_inicio = str(request.params['CAT_PA']) + '.0'
+                #paises_ids = estado_model.search([('write_date', '>=', fechapaises_inicio)])
+                #contpaises = str(len(state_ids))
+                #datapaises= str(request.params['CAT_PA'] + ' ' + contpaises)
+                #if paises_ids:
+                #    insertpaises = ""
+                #    for pais in paises_ids:
+                #        print("valor de fecha pais" + pr.write_date)
+                #        insertpaises = insertpaises + "INSERT OR REPLACE INTO pais (id_servidor,nombre,active) VALUES(" + str(pais.id) +",'" + str(pais.name) + "'," + str(True) + ");"
 
-                        insertpaises = insertpaises + "INSERT OR REPLACE INTO pais (id_servidor,nombre,active) VALUES(" + str(
-                            state.id) + ", " + str(state.country_id.id) + ",'" + str(state.name) + "'," + str(
-                            True) + ");"
-
-                    valspaises = {
-                        datapaises: insertpaises
-                    }
+                #    valspaises = {
+                #        datapaises: insertpaises
+                #    }
                 json_list['clientes'].append(vals)
                 json_list['clientes_dirs'].append(valscld)
                 json_list['productos'].append(valsproduct)
                 json_list['estados'].append(valsstate)
+                #json_list['paises'].append(valspaises)
             return json.dumps(json_list)
         except Exception as e:
             print(e)
