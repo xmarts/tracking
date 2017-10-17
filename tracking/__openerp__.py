@@ -23,7 +23,7 @@
     # always loaded
     'data': [
         'views/sale_order.xml',
-'views/track_template.xml',
+#'views/track_template.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
