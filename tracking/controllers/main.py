@@ -42,7 +42,7 @@ class trackController(http.Controller):
                             activocl = 0
                         else:
                             activocl = 1
-                        insertcliente = insertcliente + "INSERT OR REPLACE INTO CLIENTE(id,id_servidor,nombre,nombre_comercial,sitio_web,puesto_trabajo,tel,movil,fax,email,id_precio_lista,active)" + " VALUES((select id from cliente where id_servidor=" + str(p.id) + "), " + str(p.id) + ",'" + str(p.name) + "','" + str(p.display_name) + "','" + str(p.website) + "','" + str(p.function) + "','" + str(p.phone) + "','" + str(p.mobile) + "',,'" + str(p.email) + "',"+str(p.property_product_pricelist.id) + str(activocl) + ");"
+                        insertcliente = insertcliente + "INSERT OR REPLACE INTO CLIENTE(id,id_servidor,nombre,nombre_comercial,sitio_web,puesto_trabajo,tel,movil,fax,email,id_precio_lista,active)" + " VALUES((select id from cliente where id_servidor='" + str(p.id) + "'), '" + str(p.id) + "','" + str(p.name) + "','" + str(p.display_name) + "','" + str(p.website) + "','" + str(p.function) + "','" + str(p.phone) + "','" + str(p.mobile) + "','','" + str(p.email) + "','"+str(p.property_product_pricelist.id)+ "','" + str(activocl) + "');"
                     vals = {
                         data:insertcliente
                     }
@@ -60,11 +60,11 @@ class trackController(http.Controller):
                             activodir = 0
                         else:
                             activodir = 1
-                        if pcl.parent_id is False:
-                            pclid = pcl.id
+                        if pcl.parent_id:
+                            pclid = pcl.parent_id.id
                         else:
-                            pclid=pcl.parent_id.id
-                        insertclientecld = insertclientecld + "INSERT OR REPLACE INTO cliente_direccion(id, id_servidor, id_cliente_local, id_cliente_servidor, tipo, calle, num_ext, num_int, ciudad, id_estado, cp, id_pais, contacto, email, tel, movil, notas, active) VALUES((select  id from cliente_direccion where id_servidor ="+ str(pcl.id)+")," +str(pcl.id)+", (select id from cliente where id_servidor ="+str(pclid)+")," +str(pcl.id)+"',"+str(pcl.type)+"','"+str(pcl.street)+"','',"+"'','"+str(pcl.city)+"',"+str(pcl.state_id)+",'"+str(pcl.zip)+"',"+str(pcl.country_id)+",'','"+str(pcl.email)+"','"+str(pcl.phone)+"','"+str(pcl.mobile)+"','',"+str(activodir)+");"
+                            pclid=pcl.id
+                        insertclientecld = insertclientecld + "INSERT OR REPLACE INTO cliente_direccion(id, id_servidor, id_cliente_local, id_cliente_servidor, tipo, calle, num_ext, num_int, ciudad, id_estado, cp, id_pais, contacto, email, tel, movil, notas, active) VALUES((select  id from cliente_direccion where id_servidor ='"+ str(pcl.id)+"'),'" +str(pcl.id)+"', (select id from cliente where id_servidor ='"+str(pclid)+"'),'" +str(pclid)+"','"+str(pcl.type)+"','"+str(pcl.street)+"','',"+"'','"+str(pcl.city)+"','"+str(pcl.state_id.id)+"','"+str(pcl.zip)+"','"+str(pcl.country_id.id)+"','','"+str(pcl.email)+"','"+str(pcl.phone)+"','"+str(pcl.mobile)+"','','"+str(activodir)+"');"
 
                     valscld = {
                         datacld: insertclientecld
@@ -84,7 +84,7 @@ class trackController(http.Controller):
                             activoproduct = 0
                         else:
                             activoproduct = 1
-                        insertproduct = insertproduct + "INSERT OR REPLACE INTO producto(id_servidor,codigo,nombre,descripcion,precio_unitario,piezas_caja,active) VALUES("+str(pr.id)+",'"+str(pr.default_code)+"','"+str(pr.name)+"','"+str(pr.description)+"',"+str(pr.list_price)+","+str(pr.uom_id.name)+", "+str(activoproduct)+");"
+                        insertproduct = insertproduct + "INSERT OR REPLACE INTO producto(id_servidor,codigo,nombre,descripcion,precio_unitario,piezas_caja,active) VALUES('"+str(pr.id)+"','"+str(pr.default_code)+"','"+str(pr.name)+"','"+str(pr.description)+"','"+str(pr.list_price)+"','"+str(pr.uom_id.name)+"', '"+str(activoproduct)+"');"
                     valsproduct = {
                         dataproduct: insertproduct
                     }
@@ -98,9 +98,8 @@ class trackController(http.Controller):
                         insertstate = ""
                         print(state_ids)
                         for state in state_ids:
-                            print("valor de fecha state" + pr.write_date)
-
-                            insertstate = insertstate + "INSERT OR REPLACE INTO estado (id_servidor,id_pais,nombre,active) VALUES(" + str(state.id)+", "+str(state.country_id.id)+",'"+str(state.name)+"',"+str(True)+");"
+                            #print("valor de fecha state" + pr.write_date)
+                            insertstate = insertstate + "INSERT OR REPLACE INTO estado (id_servidor,id_pais,nombre,active) VALUES('" + str(state.id)+"','"+str(state.country_id.id)+"','"+str(state.name)+"','"+str(True)+"');"
 
                         valsstate = {
                             datastate: insertstate
