@@ -46,6 +46,7 @@
                                 <field name="comentary" />
 				<field name="stock_picking_id" />
 				<field name="sale_order_id" />
+				<field name="amount" />
                             </group>
                         </group>
                     </sheet>
