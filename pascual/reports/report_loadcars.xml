@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_loadcars">
+        <t t-call="pascual.layout_loadcars">
+            <div class="page">
+
+                <style type="text/css">
+                    thead {color:black;background:#847a8b}
+                    tbody {color:black}
+                    tfoot {color:black}
+                 </style>
+                <t t-set="i" t-value="1"/>
+
+                    <t t-foreach="docs" t-as="o" >
+
+                        <t t-if="not o and doc">
+                            <t t-set="o" t-value="doc"/>
+                        </t>
+                        <t t-if="o and 'company_id' in o">
+                            <t t-set="company" t-value="o.company_id"></t>
+                        </t>
+                        <t t-if="not o or not 'company_id' in o">
+                            <t t-set="company" t-value="res_company"></t>
+                        </t>
+                        <div style="float:left" t-if="i==1">
+                            <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 120px;"/>
+                        </div>
+                         <t t-set="i" t-value="i+1"/>
+                    </t>
+
+                 <table align="center"  style="width:100%"  border="1px solid #000000;" cellpadding="0" cellspacing="0">
+                     <thead align="center">
+                         <tr style="font-family: calibri; font-size:10pt; font-style:bold; font-weight: 900; color:white;">
+                             <th style="text-align:center;width:20% ;">Fecha</th>
+                             <th style="text-align:center;width:40%;">Producto</th>
+                             <th style="text-align:center;width:10%;">Unidad</th>
+                             <th style="text-align:center;width:10%;">Cantidad</th>
+                             <th style="text-align:center;width:20%;">Zona</th>
+                         </tr>
+                     </thead>
+                     <tbody >
+                         <tr t-foreach="docs" t-as="o" style="font-size:9px border:3px solid black">
+                                 <td style="text-align:center;"><span t-field="o.date"/></td>
+                                 <td style="text-align:left;"><span t-field="o.product_id.name"/></td>
+                                 <td style="text-align:center;"><span t-field="o.product_uom.name"/></td>
+                                 <td style="text-align:center;"><span t-field="o.product_uom_qty"/></td>
+                                 <td style="text-align:center;"><span t-field="o.zona"/></td>
+                         </tr>
+                     </tbody>
+                 </table>
+            </div>
+        </t>
+    </template>
+
+    <report
+        id="action_report_loadcars"
+        string="Carga de Carros"
+        model="stock.move"
+        report_type="qweb-pdf"
+        name="pascual.report_loadcars"
+        file="pascual.report_loadcars"
+        paperformat="pascual.paperformat_reportesxltrack"
+
+    />
+
+</odoo>

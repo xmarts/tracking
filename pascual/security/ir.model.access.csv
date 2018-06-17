@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_partner_sector,access_partner_sector,model_partner_sector,,1,1,1,1
+access_category_sector,access_category_sector,model_category_sector,,1,1,1,1
+access_product_container,access_product_container,model_product_container,,1,1,1,1
+access_product_family,access_product_family,model_product_family,,1,1,1,1
+access_product_marca,access_product_marca,model_product_marca,,1,1,1,1
+access_reason_rejection,access_reason_rejection,model_reason_rejection,,1,1,1,1
+access_assigned_boxes,access_assigned_boxes,model_assigned_boxes,,1,1,1,1
+access_res_zona,access_res_zona,model_res_zona,,1,1,1,1
+access_route_order,access_route_order,model_route_order,,1,1,1,1
+access_res_zona2,access_res_zona2,model_res_zona2,,1,1,1,1

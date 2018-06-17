@@ -1,0 +1,37 @@
+<openerp>
+    <data>
+        <record id="view_partnerres_form_inherit" model="ir.ui.view">
+            <field name="name">view.partneres.form.add.text.field</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+             <xpath expr="//form/sheet/group/group/field[@name='type']" position="after">
+                    <field name="name_commercial"/>
+             </xpath>
+                <xpath expr="//form/sheet/group/group/field[@name='lang']" position="after">
+                    <field name="sector_id"/>
+                    <field name="categorysector_id"/>
+                    <field name="channelsales_id"/>
+                </xpath>
+                <xpath expr="//sheet/notebook/page[@name='sales_purchases']/group/group[@name='sale']/field[@name='message_bounce']" position="after">
+                    <field name="zona"/>
+                    <field name="zona2"/>
+                    <field name="day1"/>
+                    <field name="day2"/>
+                    <field name="day3"/>
+
+                </xpath>
+                <xpath expr="//sheet/notebook/page[@name='sales_purchases']/group/group/field[@name='ref']" position="after">
+                    <field name="sellersecundary_id"/>
+                    <field name="process"/>
+                    <field name="date"/>
+                </xpath>
+                <xpath expr="//sheet/notebook/page[@name='accounting']/group/group[@name='acc_sale']/field[@name='trust']" position="after">
+                    <field name="whithout_invoice"/>
+                </xpath>
+
+            </field>
+        </record>
+
+    </data>
+</openerp>

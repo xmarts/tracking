@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+           <!-- report , stock inventories date... start -->
+        <record model="ir.ui.view" id="report_assignedboxes_tree">
+            <field name="name">report.assignedboxes.tree</field>
+            <field name="model">assigned.boxes</field>
+            <field name="arch" type="xml">
+                <tree string="Reporte de Asignación de Caja" create="false">
+                     <field name="vendedor"/>
+                        <field name="pedido"/>
+                        <field name="producto"/>
+                        <field name="qty" />
+                        <field name="unidad"/>
+                        <field name="repartidor"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="report_assignedboxes_search">
+            <field name="name">report.assignedboxes.search</field>
+            <field name="model">assigned.boxes</field>
+            <field name="arch" type="xml">
+                <search string="Reporte de Asignación de Caja">
+                <group expand="0" string="Group By">
+                    <filter string="Vendedor" icon="terp-partner" domain="[]" context="{'group_by':'vendedor'}"/>
+                        <separator orientation="vertical"/>
+                </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="report_assignedboxes_form">
+            <field name="name">report.assignedboxes.form</field>
+            <field name="model">assigned.boxes</field>
+            <field name="arch" type="xml">
+                <form string="Reporte de Asignación de Caja">
+                    <group>
+                       <field name="vendedor"/>
+                        <field name="pedido"/>
+                        <field name="producto"/>
+                        <field name="qty" />
+                        <field name="unidad"/>
+                        <field name="repartidor"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_assignedboxes">
+            <field name="name">Reporte de Asignacion de Caja</field>
+            <field name="res_model">assigned.boxes</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help">Reporte de Asignacion de Caja...</field>
+        </record>
+
+        <menuitem parent="sale.menu_sale_report" action="action_assignedboxes" id="menu_report_assignedboxes" sequence="4"
+           />
+
+    </data>
+</odoo>

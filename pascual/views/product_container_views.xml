@@ -1,0 +1,59 @@
+<openerp>
+  <data>
+    <record id="view_productcontainer_search" model="ir.ui.view">
+            <field name="name">view.product.container.search</field>
+            <field name="model">product.container</field>
+            <field name="arch" type="xml">
+                <search string="Envasado del Producto">
+                    <field name="name"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                         <filter string="Envasado" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_product_container_form" model="ir.ui.view">
+            <field name="name">view.product.container.form</field>
+            <field name="model">product.container</field>
+            <field name="arch" type="xml">
+                <form string="Envasado del producto">
+                    <sheet>
+                        <group >
+                           <field name="name" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_product_conainer_tree" model="ir.ui.view">
+            <field name="name">view.product.container.tree</field>
+            <field name="model">product.container</field>
+            <field name="arch" type="xml">
+                <tree string="Envasado del Producto">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+        <record id="product_container_action_generic" model="ir.actions.act_window">
+            <field name="name">Envasado del producto</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.container</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem action="product_container_action_generic" name="Envase de Producto"
+                  id="menu_product_container"
+                  parent="sale.product_menu_catalog"
+                  sequence="1"
+      />
+
+  </data>
+</openerp>

@@ -1,0 +1,59 @@
+<openerp>
+  <data>
+    <record id="view_motivo_search" model="ir.ui.view">
+            <field name="name">view.motivo.search</field>
+            <field name="model">reason.rejection</field>
+            <field name="arch" type="xml">
+                <search string="Motivos">
+                    <field name="name"/>
+                    <newline/>
+                    <group expand="0" string="Group By...">
+                         <filter string="Envasado" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                        <separator orientation="vertical"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_motivo_form" model="ir.ui.view">
+            <field name="name">view.motivo.form</field>
+            <field name="model">reason.rejection</field>
+            <field name="arch" type="xml">
+                <form string="Motivo de Rechazo">
+                    <sheet>
+                        <group >
+                           <field name="name" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_motivo_tree" model="ir.ui.view">
+            <field name="name">view.motivo.tree</field>
+            <field name="model">reason.rejection</field>
+            <field name="arch" type="xml">
+                <tree string="Motivos">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+        <record id="motivo_action_generic" model="ir.actions.act_window">
+            <field name="name">Motivos de Rechazo</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">reason.rejection</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+
+        <menuitem action="motivo_action_generic" name="Motivos de Rechazo"
+                  id="menu_product_container"
+                  parent="sale.product_menu_catalog"
+                  sequence="2"
+      />
+
+  </data>
+</openerp>

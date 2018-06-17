@@ -1,0 +1,334 @@
+<odoo>
+   <record id="paperformat_reportesxltrack" model="report.paperformat">
+            <field name="name">No header</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">5</field>
+            <field name="margin_bottom">20</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">3</field>
+            <field name="dpi">90</field>
+        </record>
+    <record id="paperformat_reportesfooter" model="report.paperformat">
+            <field name="name">Footer big</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">40</field>
+            <field name="margin_bottom">40</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+    <record id="paperformat_reportesfootercredit" model="report.paperformat">
+            <field name="name">Footer big</field>
+            <field name="default" eval="True"/>
+            <field name="format">A4</field>
+            <field name="orientation">Portrait</field>
+            <field name="margin_top">40</field>
+            <field name="margin_bottom">60</field>
+            <field name="margin_left">7</field>
+            <field name="margin_right">7</field>
+            <field name="header_line" eval="False"/>
+            <field name="header_spacing">35</field>
+            <field name="dpi">90</field>
+        </record>
+
+    <template id="layout_loadcars">
+            <t t-if="o and 'company_id' in o">
+                <t t-set="company" t-value="o.company_id"></t>
+            </t>
+            <t t-if="not o or not 'company_id' in o">
+                <t t-set="company" t-value="res_company"></t>
+            </t>
+            <t t-call="pascual.report_headerdor" />
+            <t t-raw="0" />
+
+            <t t-call="pascual.report_footerdor" />
+        </template>
+
+
+
+        <template id="report_headerdor">
+            <div class="header">
+            </div>
+        </template>
+
+
+        <template id="report_footerdor">
+            <div class="footer">
+                <br/>
+                <table style=" border:0px solid white; width:100%;color:black;">
+                    <tr>
+                        <td style=" width:30%;"></td>
+                      <td style="width:40%;border-top:1px solid black;">
+                           <span style="text-align:center;padding-left:15px;margin-left:15px">JOSÉ MIGUEL VARGAS VARGAS  </span>
+                      </td>
+                      <td style=" width:30%;"></td>
+                   </tr>
+                </table>
+                "Recibí de Sociedad Cooperativa Trabajadores de Pascual S.C.L. las unidades completas de los productos a que se refieren las columnas y que se detallan en el marco correspondiente. Unidades que devolveré o entregaré el importe hoy mismo"
+                <!--
+               <div class="text-center" style="border-top: 1px solid black;">
+
+                    <strong style=" font-size:12pt; font-style:bold; font-weight: 900;">Página: </strong>
+                    <span class="page"/>
+                    <strong style=" font-size:12pt; font-style:bold; font-weight: 900;">/</strong>
+                    <span class="topage"/>
+                </div>-->
+            </div>
+        </template>
+
+
+
+    <template id="external_layout_delivery">
+    <!-- Multicompany -->
+    <t t-if="not o and doc">
+        <t t-set="o" t-value="doc"/>
+    </t>
+    <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"></t>
+    </t>
+    <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"></t>
+    </t>
+
+    <t t-call="pascual.external_layout_header_w" />
+    <t t-raw="0" />
+    <t t-call="pascual.external_layout_footer_contado" />
+</template>
+ <template id="external_layout_comodato">
+    <!-- Multicompany -->
+    <t t-if="not o and doc">
+        <t t-set="o" t-value="doc"/>
+    </t>
+    <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"></t>
+    </t>
+    <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"></t>
+    </t>
+
+    <t t-call="pascual.external_layout_header_w" />
+    <t t-raw="0" />
+    <t t-call="pascual.external_layout_footer_comodo" />
+</template>
+     <template id="external_layout_credito">
+    <!-- Multicompany -->
+    <t t-if="not o and doc">
+        <t t-set="o" t-value="doc"/>
+    </t>
+    <t t-if="o and 'company_id' in o">
+        <t t-set="company" t-value="o.company_id"></t>
+    </t>
+    <t t-if="not o or not 'company_id' in o">
+        <t t-set="company" t-value="res_company"></t>
+    </t>
+
+    <t t-call="pascual.external_layout_header_w" />
+    <t t-raw="0" />
+    <t t-call="pascual.external_layout_footer_credito" />
+</template>
+
+<template id="external_layout_header_w">
+    <div class="header">
+        <div class="row">
+            <div class="col-xs-3">
+                <img t-if="company.logo" t-att-src="'data:image/png;base64,%s' % company.logo" style="max-height: 90px;"/>
+            </div>
+            <div class="col-xs-9 text-right" style="margin-top:20px;" t-field="company.rml_header1"/>
+        </div>
+        <div class="row zero_min_height">
+            <div class="col-xs-12">
+                <div style="border-bottom: 1px solid black;"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6" name="company_address">
+                <span t-field="company.partner_id"
+                    t-field-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'
+                    style="border-bottom: 1px solid black; display:inline-block;"/>
+            </div>
+        </div>
+    </div>
+</template>
+
+<template id="external_layout_footer_w">
+    <div class="footer">
+        <div class="text-center" style="border-top: 1px solid black;">
+            <ul t-if="not company.custom_footer" class="list-inline">
+                <t t-set="company" t-value="company.sudo()"/>
+                <li t-if="company.phone">Phone: <span t-field="company.phone"/></li>
+
+                <li t-if="company.fax and company.phone">&amp;bull;</li>
+                <li t-if="company.fax">Fax: <span t-field="company.fax"/></li>
+
+                <li t-if="company.email and company.fax or company.email and company.phone">&amp;bull;</li>
+                <li t-if="company.email">Email: <span t-field="company.email"/></li>
+
+                <li t-if="company.website and company.email or company.website and company.fax or company.website and company.phone">&amp;bull;</li>
+                <li t-if="company.website">Website: <span t-field="company.website"/></li>
+            </ul>
+
+            <ul t-if="not company.custom_footer" class="list-inline" name="financial_infos">
+                <li t-if="company.vat">TIN: <span t-field="company.vat"/></li>
+            </ul>
+
+            <t t-if="company.custom_footer">
+                <span t-raw="company.rml_footer"/>
+            </t>
+
+            <ul class="list-inline">
+                <li>Page:</li>
+                <li><span class="page"/></li>
+                <li>/</li>
+                <li><span class="topage"/></li>
+            </ul>
+        </div>
+    </div>
+</template>
+    <template id="external_layout_footer_contado">
+    <div class="footer">
+         <div style=" border: 1px solid white; width:100%;" align="center">
+                <table style="border:1px solid white; widht:100%">
+                    <tr >
+                        <td style="width:30%;text-align:center;border-top:1px solid black;"></td>
+                        <td style="width:40%;text-align:center; border-top:1px solid black;"><span t-field="o.partner_id.name"/></td>
+                        <td style="width:30%;text-align:center;border-top:1px solid black; "></td>
+                    </tr>
+                </table>
+            </div><br/>
+        <div class="text-center" style="border-top: 1px solid black;">
+            <ul t-if="not company.custom_footer" class="list-inline">
+                <t t-set="company" t-value="company.sudo()"/>
+                <li t-if="company.phone">Phone: <span t-field="company.phone"/></li>
+
+                <li t-if="company.fax and company.phone">&amp;bull;</li>
+                <li t-if="company.fax">Fax: <span t-field="company.fax"/></li>
+
+                <li t-if="company.email and company.fax or company.email and company.phone">&amp;bull;</li>
+                <li t-if="company.email">Email: <span t-field="company.email"/></li>
+
+                <li t-if="company.website and company.email or company.website and company.fax or company.website and company.phone">&amp;bull;</li>
+                <li t-if="company.website">Website: <span t-field="company.website"/></li>
+            </ul>
+
+            <ul t-if="not company.custom_footer" class="list-inline" name="financial_infos">
+                <li t-if="company.vat">TIN: <span t-field="company.vat"/></li>
+            </ul>
+
+            <t t-if="company.custom_footer">
+                <span t-raw="company.rml_footer"/>
+            </t>
+
+            <ul class="list-inline">
+                <li>Page:</li>
+                <li><span class="page"/></li>
+                <li>/</li>
+                <li><span class="topage"/></li>
+            </ul>
+        </div>
+    </div>
+</template>
+
+     <template id="external_layout_footer_credito">
+    <div class="footer">
+         <div style=" border: 1px solid white; width:100%;" align="center">
+                            <table style="border:1px solid white; widht:100%">
+                                <tr >
+                                    <td style="width:30%;text-align:center;border-top:1px solid black;"></td>
+                                    <td style="width:40%;text-align:center; border-top:1px solid black;"><span t-field="o.partner_id.name"/></td>
+                                    <td style="width:30%;text-align:center;border-top:1px solid black; "></td>
+                                </tr>
+                            </table>
+                        </div><br/>
+                    "Debo y pagaré incondicionalmente a la Sociedad Cooperativa Trabajadores de Pascual S.C.L. la cantidad de --(el monto que está en el pedido de venta)-- en esta ciudad o cualquiera en que el suscriptor tenga su domicilio a elección del beneficiario en la fecha de vencimiento --(fecha vencimiento que aparece en factura cliente)--, por el valor recibido en mercancía y/o producto a mi entera satisfacción.
+                    La falta de pago oportuno causará un interés mensual del 10% hasta su finiquito."
+        <br/><br/>
+        <div class="text-center" style="border-top: 1px solid black;">
+            <ul t-if="not company.custom_footer" class="list-inline">
+                <t t-set="company" t-value="company.sudo()"/>
+                <li t-if="company.phone">Phone: <span t-field="company.phone"/></li>
+
+                <li t-if="company.fax and company.phone">&amp;bull;</li>
+                <li t-if="company.fax">Fax: <span t-field="company.fax"/></li>
+
+                <li t-if="company.email and company.fax or company.email and company.phone">&amp;bull;</li>
+                <li t-if="company.email">Email: <span t-field="company.email"/></li>
+
+                <li t-if="company.website and company.email or company.website and company.fax or company.website and company.phone">&amp;bull;</li>
+                <li t-if="company.website">Website: <span t-field="company.website"/></li>
+            </ul>
+
+            <ul t-if="not company.custom_footer" class="list-inline" name="financial_infos">
+                <li t-if="company.vat">TIN: <span t-field="company.vat"/></li>
+            </ul>
+
+            <t t-if="company.custom_footer">
+                <span t-raw="company.rml_footer"/>
+            </t>
+
+            <ul class="list-inline">
+                <li>Page:</li>
+                <li><span class="page"/></li>
+                <li>/</li>
+                <li><span class="topage"/></li>
+            </ul>
+        </div>
+    </div>
+</template>
+     <template id="external_layout_footer_comodo">
+    <div class="footer">
+         <div style=" border: 1px solid white; width:100%;" align="center">
+                            <table style="border:1px solid white; widht:100%">
+                                <tr >
+                                    <td style="width:30%;text-align:center;border-top:1px solid black;"></td>
+                                    <td style="width:40%;text-align:center; border-top:1px solid black;"><span t-field="o.partner_id.name"/></td>
+                                    <td style="width:30%;text-align:center;border-top:1px solid black; "></td>
+                                </tr>
+                            </table>
+                        </div><br/>
+                    "Los artículos descritos serán entregados por el comodatante en la dirección del comodatario.<br/>
+
+                    Las partes convienen que el préstamo del (los) bien(nes) se acatará a las disposiciones que dicta el art. 2511 del código civil de la cdmx vigentes para que el comodatante pueda recoger los bienes antes descritos en el lugar fijado en el mismo documento sin previo aviso o consentimiento del comodatario, quien autoriza la recuperación sin reservarse acción o derecho de reclamo alguno, así mismo se obliga al comodatario a restituir dicho bien al comodatante en la fecha, condiciones y en el buen estado en que se requiere"
+            <br/> <br/>
+        <div class="text-center" style="border-top: 1px solid black;">
+            <ul t-if="not company.custom_footer" class="list-inline">
+                <t t-set="company" t-value="company.sudo()"/>
+                <li t-if="company.phone">Phone: <span t-field="company.phone"/></li>
+
+                <li t-if="company.fax and company.phone">&amp;bull;</li>
+                <li t-if="company.fax">Fax: <span t-field="company.fax"/></li>
+
+                <li t-if="company.email and company.fax or company.email and company.phone">&amp;bull;</li>
+                <li t-if="company.email">Email: <span t-field="company.email"/></li>
+
+                <li t-if="company.website and company.email or company.website and company.fax or company.website and company.phone">&amp;bull;</li>
+                <li t-if="company.website">Website: <span t-field="company.website"/></li>
+            </ul>
+
+            <ul t-if="not company.custom_footer" class="list-inline" name="financial_infos">
+                <li t-if="company.vat">TIN: <span t-field="company.vat"/></li>
+            </ul>
+
+            <t t-if="company.custom_footer">
+                <span t-raw="company.rml_footer"/>
+            </t>
+
+            <ul class="list-inline">
+                <li>Page:</li>
+                <li><span class="page"/></li>
+                <li>/</li>
+                <li><span class="topage"/></li>
+            </ul>
+        </div>
+    </div>
+</template>
+
+
+</odoo>
