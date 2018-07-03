@@ -9,6 +9,8 @@ class StockPicking(models.Model):
     _inherit = "stock.picking"
     deliveryman_id = fields.Many2one('res.users', string="Repartidor")
     zona = fields.Char(string="Zona")
+    lxtrackprocess = fields.Boolean(string="LXtrac process")
+    amount = fields.Float(string="Monto")
 
     @api.model
     def create(self, vals):

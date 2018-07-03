@@ -9,7 +9,10 @@
                     <field name="deliveryman_id"/>
                 </xpath>
                 <xpath expr="//sheet/group/group/field[@name='location_dest_id']" position="after">
-                    <field name="zona"/>
+                    <field name="lxtrackprocess" readonly="1" />
+                </xpath>
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="amount" widget="monetary" readonly="1"  />
                 </xpath>
 
             </field>

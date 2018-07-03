@@ -29,7 +29,7 @@
         'views/product.xml',
         'views/partner.xml',
         'views/sale_views.xml',
-        #'views/stock_picking.xml',
+        'views/stock_picking.xml',
         'views/assigned_boxes.xml',
         'views/motivo.xml',
         'views/zona.xml',
