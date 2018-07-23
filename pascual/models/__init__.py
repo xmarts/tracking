@@ -13,6 +13,7 @@ from . import sale_order
 from . import stock_picking
 from . import assigned_boxes
 from . import route_orders
+from . import lx_orders
 #from . import sale_report
 from . import stock_move
 #from . import motivo
