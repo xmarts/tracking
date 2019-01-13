@@ -2,14 +2,15 @@
 {
     'name': 'Tracking',
     'category': 'Hidden',
-    'version': '1.0',
+    'version': '0.1',
+    'author' : 'Xmarts',
     'description':
         """
 Odoo Web Tracking module.
 ========================
 This module provides the lxtrack of the Odoo Web Client.
         """,
-    'depends': ['base','sale','purchase','stock','delivery','hr'],
+    'depends': ['base','sale','purchase','stock','delivery','hr','base_geolocalize'],
     'auto_install': True,
     'data': [
         'data/ir_sequence_data.xml',
@@ -21,6 +22,7 @@ This module provides the lxtrack of the Odoo Web Client.
         'views/zona2.xml',
         #'views/stock_move.xml',
         'views/route_orders_views.xml',
+        'views/hr_employee.xml',
         #'reports/layout.xml',
         'wizard/partner_process.xml'
     ],
