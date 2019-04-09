@@ -7,4 +7,5 @@ from . import lx_orders
 from . import motivo
 from . import partner
 from . import hr_employee
+from . import order
 
