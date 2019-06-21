@@ -26,10 +26,18 @@
                     <field name="process"/>
                     <field name="date"/>
                 </xpath>
-                <xpath expr="//sheet/notebook/page[@name='accounting']/group/group[@name='acc_sale']/field[@name='trust']" position="after">
+                
+
+            </field>
+        </record>
+        <record id="view_partnerres_form_inherit_two" model="ir.ui.view">
+            <field name="name">view.partneres.form.add.text.field</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account.view_partner_property_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='accounting']/group/group[@name='banks']/field[@name='bank_ids']" position="after">
                     <field name="whithout_invoice"/>
                 </xpath>
-
             </field>
         </record>
 

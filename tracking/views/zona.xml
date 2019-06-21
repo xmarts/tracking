@@ -8,7 +8,7 @@
                     <field name="name"/>
                     <newline/>
                     <group expand="0" string="Group By...">
-                         <filter string="zona" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
+                         <filter string="zona" icon="terp-partner" name="filter_zona" domain="[]" context="{'group_by':'name'}"/>
                         <separator orientation="vertical"/>
                     </group>
                 </search>

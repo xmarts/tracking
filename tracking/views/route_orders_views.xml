@@ -1,111 +1,127 @@
 <odoo>
-  <data>
-    <record id="view_route_order_search" model="ir.ui.view">
-            <field name="name">view.routeorder.search</field>
+    <data>
+        <record id="view_route_order_search" model="ir.ui.view">
+            <field name="name">view.route.order.search</field>
             <field name="model">route.order</field>
             <field name="arch" type="xml">
                 <search string="Ruta de Ordenes">
                     <field name="name"/>
                     <newline/>
                     <group expand="0" string="Group By...">
-                         <filter string="Nombre" icon="terp-partner" domain="[]" context="{'group_by':'name'}"/>
-                        <filter string="Cliente" icon="terp-partner" domain="[]" context="{'group_by':'partner_id'}"/>
+                        <filter string="Nombre" icon="terp-partner" domain="[]" name="filter_nombres_ruta" context="{'group_by':'name'}" />
+                        <filter string="Cliente" icon="terp-partner" domain="[]" name="filter_clientes_ruta" context="{'group_by':'partner_id'}" />
                         <separator orientation="vertical"/>
                     </group>
                 </search>
             </field>
         </record>
+     <!-- <record id='view_route_order_form' model="ir.ui.view">
+        <field name="name">route_view_order_form</field>
+        <field name="model">route.order</field>
+        <field name="arch" type="xml">
+            <form string="Ruta de Ordenes">
+                <header>
+                
+                    <button class="oe_stat_button" icon="fa-cubes" type="action" name="389">
+                        <field name="x_route_orders_id__lx_orders_count" string="Shipping" widget="statinfo"/>
+                    </button> 
+                
+            </header>
+            <sheet>
+                <div class="oe_title">
+                    <label string="Orden" />
+                    <h1>
+                        <field name="name" readonly="1" />
+                    </h1>
+                </div>
+                <group>
+                    <group>
 
-        <!-- Contador para boton
-        <record id="view_route_oder_form" model="ir.model.fields" >
-            <field name="complete_name" eval="False"/><field name="compute">
-results = self.env['lx.orders'].read_group([('route_orders_id', 'in', self.ids)], 'route_orders_id', 'route_orders_id')
-dic = {}
-for x in results: dic[x['route_orders_id'][0]] = x['route_orders_id_count']
-for record in self: record['x_route_orders_id__lx_orders_count'] = dic.get(record.id, 0)
-</field>
-            <field name="copy" eval="False"/>
-            <field name="depends" eval="False"/>
-            <field name="domain">[]</field>
-            <field name="field_description">Route Order count</field>
-            <field name="groups" eval="[(6, 0, [])]"/>
-            <field name="help" eval="False"/>
-            <field name="index" eval="False"/>
-            <field name="model">route.order</field><field name="model_id" ref="tracking.model_route_order"/><field name="name">x_route_orders_id__lx_orders_count</field><field name="on_delete">set null</field><field name="readonly" eval="False"/><field name="related" eval="False"/><field name="relation" eval="False"/><field name="relation_field" eval="False"/><field name="required" eval="False"/><field name="selectable" eval="False"/><field name="selection" eval="False"/><field name="size" eval="False"/><field name="state">manual</field><field name="store" eval="False"/><field name="track_visibility" eval="False"/><field name="translate" eval="False"/><field name="ttype">integer</field></record>
--->
-        <record id="view_route_order_form" model="ir.ui.view">
-            <field name="name">view.routeorder.form</field>
-            <field name="model">route.order</field>
-            <field name="arch" type="xml">
-                <form string="Ruta de Ordenes">
-                    <sheet>
-                        <header>
-                            <!--
-                            <button class="oe_stat_button" icon="fa-cubes" type="action" name="389">
-                                <field name="x_route_orders_id__lx_orders_count" string="Shipping" widget="statinfo"/>
-                            </button> -->
-                        </header>
-                      <div class="oe_title">
-                        <label string="Orden"/>
-                            <h1>
-                                <field name="name" readonly="1"/>
-                            </h1>
-                        </div>
-                        <group>
-                            <group>
+                        <field name="partner_id" />
+                        <field name="partner_shipping_id" />
+                        <field name="priority" />
+                        <field name="type" />
+                        <field name="state" />
+                    </group>
+                    <group>
+                        <field name="date_order" />
+                        <field name="manage_id" />
+                        <field name="comentary" />
+                        <field name="stock_picking_id" />
+                        <field name="sale_order_id" />
+                        <field name="amount" />
+                    </group>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record> -->
+<record id="view_route_order_form_form" model="ir.ui.view">
+    <field name="name">view.routeorder.form.form</field>
+    <field name="model">route.order</field>
+    <field name="arch" type="xml">
+        <form string="Ruta de Ordenes">
+        <sheet>
+                <div class="oe_title">
+                    <h1>
+                        <field name="name" readonly="1" />
+                    </h1>
+                </div>
+                <group>
+                    <group>
 
-                                <field name="partner_id" />
-                                <field name="partner_shipping_id" />
-                                <field name="priority" />
-				<field name="type" />
-                                <field name="state"/>
-                            </group>
-                            <group>
-                                <field name="date_order" />
-                                <field name="manage_id" />
-                                <field name="comentary" />
-				<field name="stock_picking_id" />
-				<field name="sale_order_id" />
-				<field name="amount" />
-                            </group>
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-        <record id="view_route_order_tree" model="ir.ui.view">
-            <field name="name">view.routeorder.tree</field>
-            <field name="model">route.order</field>
-            <field name="arch" type="xml">
-                <tree string="Ruta de Ordenes">
-                    <field name="id" />
-                    <field name="name" />
-                    <field name="partner_id" />
-                    <field name="partner_shipping_id" />
-                    <field name="priority" />
-                    <field name="date_order" />
-                    <field name="manage_id" />
-                    <field name="state"/>
-                </tree>
-            </field>
-        </record>
+                        <field name="partner_id" />
+                        <field name="partner_shipping_id" />
+                        <field name="priority" />
+                        <field name="type" />
+                        <field name="state" />
+                    </group>
+                    <group>
+                        <field name="date_order" />
+                        <field name="manage_id" />
+                        <field name="comentary" />
+                        <field name="stock_picking_id" />
+                        <field name="sale_order_id" />
+                        <field name="amount" />
+                    </group>
+                </group>
+            </sheet>
+        </form>
+    </field>
+</record>
+
+<record id="view_route_order_tree" model="ir.ui.view">
+    <field name="name">view.routeorder.tree</field>
+    <field name="model">route.order</field>
+    <field name="arch" type="xml">
+        <tree string="Ruta de Ordenes">
+            <field name="id" />
+            <field name="name" />
+            <field name="partner_id" />
+            <field name="partner_shipping_id" />
+            <field name="priority" />
+            <field name="date_order" />
+            <field name="manage_id" />
+            <field name="state"/>
+        </tree>
+    </field>
+</record>
 
 
 
-        <record id="route_order_action_generic" model="ir.actions.act_window">
-            <field name="name">Ruta de Ordenes</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">route.order</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-        </record>
+<record id="route_order_action_generic" model="ir.actions.act_window">
+    <field name="name">Ruta de Ordenes</field>
+    <field name="type">ir.actions.act_window</field>
+    <field name="res_model">route.order</field>
+    <field name="view_type">form</field>
+    <field name="view_mode">tree,form</field>
+</record>
 
 
-        <menuitem action="route_order_action_generic" name="Ruta de Ordenes"
-                  id="menu_route_order"
-                  parent="sale.sale_order_menu"
-                  sequence="1"
-      />
+<menuitem action="route_order_action_generic" name="Ruta de Ordenes"
+  id="menu_route_order"
+  parent="sale.sale_order_menu"
+  />
 
-  </data>
+</data>
 </odoo>
