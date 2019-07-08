@@ -1,1 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_res_zona,access_res_zona,model_res_zona,,1,1,1,1
+access_route_order,access_route_order,model_route_order,,1,1,1,1
+access_res_zona2,access_res_zona2,model_res_zona2,,1,1,1,1
