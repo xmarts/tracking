@@ -24,6 +24,7 @@
                         <group >
                            <field name="name" />
                             <field name="user_id" />
+                            <field name="pos_id" />
                         </group>
                     </sheet>
                 </form>
@@ -36,6 +37,7 @@
                 <tree string="Zonas Repartición">
                     <field name="name"/>
                     <field name="user_id" />
+                    <field name="pos_id" />
                 </tree>
             </field>
         </record>
