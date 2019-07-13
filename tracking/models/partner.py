@@ -11,8 +11,8 @@ class ResPartner(models.Model):
     name_commercial = fields.Char(string="Nombre Comercial")
     sector_id = fields.Many2one('partner.sector', string="Sector")
     categorysector_id = fields.Many2one('category.sector', string="Categoria del Sector")
-    zona = fields.Many2one('res.zona', string="Zona Preventa")
-    zona2 = fields.Many2one('res.zona2', string="Zona Reparto")
+    zona = fields.Many2one('res.zona', string="Zona Preventa/Venta")
+    zona2 = fields.Many2one('res.zona', string="Zona Reparto")
     day1 = fields.Selection(string="Día de Entrega 1 ",
                             selection=[('monday', 'Lunes'), ('tuesday', 'Martes'), ('wednesday', 'Miércoles'),
                                        ('thursday', 'Jueves'), ('friday', 'Viernes'), ('saturday', 'Sábado'),

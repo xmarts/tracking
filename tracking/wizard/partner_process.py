@@ -31,6 +31,7 @@ class PartnerProcess(models.TransientModel):
                 'name': 'New',
                 'partner_id': p.id,
                 'partner_shipping_id':shipping_id,
-                'manage_id':p.zona.user_id.id
+                'manage_id':p.zona.user_id.id,
+                'zone_id': p.zona.id
             }
             route.create(vals)

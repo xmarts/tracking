@@ -33,6 +33,7 @@ class RouteOrder(models.Model):
     sale_order_id = fields.Many2one('sale.order', string='Pedido de venta', required=False)
     stock_picking_id = fields.Many2one('stock.picking', string='Albaran de salida', required=False)
     amount = fields.Float(digits=(32, 32),string='Monto Debe',defualt=0.0)
+    zone_id = fields.Many2one('res.zona', string="Zona")
 
 
     @api.model

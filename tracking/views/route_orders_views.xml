@@ -79,6 +79,7 @@
                     <group>
                         <field name="date_order" />
                         <field name="manage_id" />
+                        <field name="zone_id" />
                         <field name="comentary" />
                         <field name="stock_picking_id" />
                         <field name="sale_order_id" />
