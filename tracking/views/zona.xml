@@ -25,6 +25,7 @@
                            <field name="name" />
                             <field name="user_id" />
                             <field name="pos_id" />
+                            <field name="type" />
                         </group>
                     </sheet>
                 </form>
@@ -38,6 +39,7 @@
                     <field name="name"/>
                     <field name="user_id" />
                     <field name="pos_id" />
+                    <field name="type" />
                 </tree>
             </field>
         </record>
