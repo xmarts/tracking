@@ -75,6 +75,7 @@
                         <field name="priority" />
                         <field name="type" />
                         <field name="state" />
+                        <field name="sync_error" />
                     </group>
                     <group>
                         <field name="date_order" />
