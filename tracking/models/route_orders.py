@@ -30,9 +30,9 @@ class RouteOrder(models.Model):
         ('4', 'Completa'),
         ('5', 'Cancelada'),
         ('11', 'Error')
-        ], string='Estado', copy=False, default='0')
-    sale_order_id = fields.Many2one('sale.order', string='Pedido de venta', required=False)
-    stock_picking_id = fields.Many2one('stock.picking', string='Albaran de salida', required=False)
+        ], string='Estado', copy=False, default='0', readonly=True)
+    sale_order_id = fields.Many2one('sale.order', string='Pedido de venta', required=False, readonly=True )
+    stock_picking_id = fields.Many2one('stock.picking', string='Albaran de salida', required=False, readonly=True)
     amount = fields.Float(digits=(32, 32),string='Monto Debe',defualt=0.0)
     zone_id = fields.Many2one('res.zona', string="Zona")
     sync_error = fields.Char(string="Sync Error", readonly=True)
