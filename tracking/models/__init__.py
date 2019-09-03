@@ -8,4 +8,5 @@ from . import motivo
 from . import partner
 from . import hr_employee
 from . import pos_session
+from . import pricelist
 

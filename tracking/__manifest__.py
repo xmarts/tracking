@@ -10,7 +10,7 @@ Odoo Web Tracking module.
 ========================
 This module provides the lxtrack of the Odoo Web Client.
         """,
-    'depends': ['base','sale','purchase','stock','delivery','hr','base_geolocalize','contacts','point_of_sale'],
+    'depends': ['base','sale','purchase','stock','delivery','hr','base_geolocalize','contacts','point_of_sale','product'],
     'auto_install': True,
     'data': [
         'data/ir_sequence_data.xml',
@@ -24,7 +24,8 @@ This module provides the lxtrack of the Odoo Web Client.
         'views/route_orders_views.xml',
         'views/hr_employee.xml',
         #'reports/layout.xml',
-        'wizard/partner_process.xml'
+        'wizard/partner_process.xml',
+        'views/pricelist.xml'
     ],
     'bootstrap': True,
 }

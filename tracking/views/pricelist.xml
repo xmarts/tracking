@@ -1,0 +1,31 @@
+<odoo>
+    <data>
+        <record id="view_inherit_pricelist_form" model="ir.ui.view">
+            <field name="name">view_inherit_pricelist_form</field>
+            <field name="model">product.pricelist.item</field>
+            <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[2]" position="after">
+                    <group>
+                        <group>
+                            <field name="price_with_ieps"/>
+                            <field name="price_tax"/>
+                            <field name="price_total"/>
+                            <field name="percent_tax"/>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_inherit_pos_order_form" model="ir.ui.view">
+            <field name="name">view_inherit_pos_order_form</field>
+            <field name="model">pos.order</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="recalcula_impuestos" string="Test" type="object" />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
