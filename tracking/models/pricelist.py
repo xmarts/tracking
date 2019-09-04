@@ -11,6 +11,7 @@ class PriceListItemInherit(models.Model):
 	price_tax = fields.Float(string="Impuestos", compute="_compute_amount")
 	price_total = fields.Float(string="Precio Final", compute="_compute_amount")
 	percent_tax = fields.Integer(string="Porcentaje impuestos", compute="_compute_amount")
+	ieps_taxes = fields.Many2many("account.tax", string="Impuestos IEPS", compute="_compute_amount")
 
 	@api.depends('price_with_ieps', 'price_tax', 'price_total', 'product_tmpl_id', 'compute_price', 'fixed_price')
 	def _compute_amount(self):
@@ -19,6 +20,7 @@ class PriceListItemInherit(models.Model):
 			taxs = line.product_tmpl_id.taxes_id
 			lista = []
 			ieps_amount = 0
+			ieps_list = []
 			for x in taxs:
 				ieps = False
 				for z in x.tag_ids:
@@ -33,6 +35,7 @@ class PriceListItemInherit(models.Model):
 						ieps = True
 				if ieps == True:
 					ieps_amount += x.amount
+					ieps_list.append(x.id)
 			mytaxes = self.env['account.tax'].search([('id','in',lista)])
 			print("PRECIOS ",price,ieps_amount,(price+ieps_amount),mytaxes)
 			tax = 0
@@ -45,6 +48,7 @@ class PriceListItemInherit(models.Model):
 				'price_total': round((price + ieps_amount + tax),2),
 				'price_with_ieps': round((ieps_amount),2),
 				'percent_tax': p_tax,
+				'ieps_taxes': [(6,0,ieps_list)],
 			})
 
 class PosOrder(models.Model):
@@ -56,6 +60,7 @@ class PosOrder(models.Model):
     	tot = 0
     	for l in self.lines:
     		imp += l.price_subtotal_incl - l.price_subtotal
-    		tot += l.price_subtotal
+    		tot += l.price_subtotal_incl
     	self.amount_tax = imp
     	self.amount_total = tot
+    	return True

@@ -36,7 +36,7 @@ class RouteOrder(models.Model):
     amount = fields.Float(digits=(32, 32),string='Monto Debe',defualt=0.0)
     zone_id = fields.Many2one('res.zona', string="Zona")
     sync_error = fields.Char(string="Sync Error", readonly=True)
-    cancel_mot = fields.Selection([('0','Realizado'),('1','No Quiso'),('2','Negocio cerrado'),('3','Pospone fecha'),('4','Cliente sin dinero'),('5','No tengo producto'),('6','Recuperación cobranza'),('7','No visitado')], string="Motivo Cancelacion", default="0")
+    cancel_mot = fields.Selection([('0','Sin Cancelar'),('1','No Quiso'),('2','Negocio cerrado'),('3','Pospone fecha'),('4','Cliente sin dinero'),('5','No tengo producto'),('6','Recuperación cobranza'),('7','No visitado')], string="Motivo Cancelacion", default="0")
 
 
     @api.model
