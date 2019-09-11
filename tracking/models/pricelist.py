@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 
 from odoo import fields, models, api, _
+from odoo.exceptions import AccessError, UserError, RedirectWarning, ValidationError, Warning
 
 class PriceListItemInherit(models.Model):
 	_inherit = 'product.pricelist.item'
@@ -52,15 +53,25 @@ class PriceListItemInherit(models.Model):
 			})
 
 class PosOrder(models.Model):
-    _inherit = 'pos.order'
+	_inherit = 'pos.order'
 
-    @api.multi
-    def recalcula_impuestos(self):
-    	imp = 0 
-    	tot = 0
-    	for l in self.lines:
-    		imp += l.price_subtotal_incl - l.price_subtotal
-    		tot += l.price_subtotal_incl
-    	self.amount_tax = imp
-    	self.amount_total = tot
-    	return True
+	@api.multi
+	def recalcula_impuestos(self):
+		imp = 0 
+		tot = 0
+		for l in self.lines:
+			imp += l.price_subtotal_incl - l.price_subtotal
+			tot += l.price_subtotal_incl
+		self.amount_tax = imp
+		self.amount_total = tot
+		return True
+
+class SaleCuponProgram(models.Model):
+	_inherit = 'sale.coupon.program'
+
+	@api.constrains('name')
+	def _check_name(self):
+		rec = self.env['sale.coupon.program'].search(
+		[('name', '=', self.name),('id', '!=', self.id),('program_type','=','promotion_program')])
+		if rec:
+			raise ValidationError(_('Ya existe una promocion con este nombre.'))

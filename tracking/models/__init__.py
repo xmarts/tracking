@@ -9,4 +9,5 @@ from . import partner
 from . import hr_employee
 from . import pos_session
 from . import pricelist
+from . import sale_cupon_program
 

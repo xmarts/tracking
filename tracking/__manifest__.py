@@ -25,7 +25,7 @@ This module provides the lxtrack of the Odoo Web Client.
         'views/hr_employee.xml',
         #'reports/layout.xml',
         'wizard/partner_process.xml',
-        'views/pricelist.xml'
+        'views/pricelist.xml',
     ],
     'bootstrap': True,
 }
