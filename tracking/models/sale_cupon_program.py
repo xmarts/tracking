@@ -28,12 +28,15 @@ class SaleCuponProgram(models.Model):
 		else:
 			domain = []
 		print("DOMINIO: ",domain)
-		partners= self.env['res.partner'].search(domain)
 		lista = []
-		if partners:
-			for x in partners:
-				if x.customer == True:
-					lista.append(str(x.id))
-		
-		return lista
+		if domain == []:
+			return lista
+		else:
+			partners= self.env['res.partner'].search(domain)
+			if partners:
+				for x in partners:
+					if x.customer == True:
+						lista.append(str(x.id))
+			
+			return lista
 	#products_dom = fields.Many2many("product.product", string="Productos")
