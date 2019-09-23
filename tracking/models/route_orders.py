@@ -16,7 +16,7 @@ class RouteOrder(models.Model):
         ('B', 'Baja')
         ], string='Prioridad',default='N')
     date_order = fields.Datetime(string='Agendada', default=fields.Datetime.now)
-    manage_id = fields.Many2one('hr.employee', string="Encargado")
+    manage_id = fields.Many2one('hr.employee', string="Encargado", required=True)
     comentary = fields.Text('Comentarios')
     type = fields.Selection([
         ('ENTREGA','Entrega'),
@@ -34,7 +34,7 @@ class RouteOrder(models.Model):
     sale_order_id = fields.Many2one('sale.order', string='Pedido de venta', required=False, readonly=True )
     stock_picking_id = fields.Many2one('stock.picking', string='Albaran de salida', required=False, readonly=True)
     amount = fields.Float(digits=(32, 32),string='Monto Debe',defualt=0.0)
-    zone_id = fields.Many2one('res.zona', string="Zona")
+    zone_id = fields.Many2one('res.zona', string="Zona", required=True)
     sync_error = fields.Char(string="Sync Error", readonly=True)
     cancel_mot = fields.Selection([('0','Sin Cancelar'),('1','No Quiso'),('2','Negocio cerrado'),('3','Pospone fecha'),('4','Cliente sin dinero'),('5','No tengo producto'),('6','Recuperación cobranza'),('7','No visitado')], string="Motivo Cancelacion", default="0")
 
