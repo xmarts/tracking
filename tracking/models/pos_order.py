@@ -98,6 +98,14 @@ class PosOrder(models.Model):
     _inherit = 'pos.order'
     monto_credito = fields.Float(string="Credito Solicitado")
     abono_credito = fields.Float(string="Abono al credito")
+    orden_ruta_id = fields.Many2one('route.order', string="Ruta Origen")
+
+    @api.multi
+    def action_pos_order_invoicepayment_create(self):
+        self.action_pos_order_invoice_create()
+        self.create_payment_pos_invoice_lx(self.invoice_id.id)
+        return True
+
 
     @api.multi
     def action_pos_order_invoice_create(self):
@@ -140,7 +148,7 @@ class PosOrder(models.Model):
                     print("ERROR AL TIMBRAR FACTURA")
             if Invoice.move_id:
                 self.account_move = Invoice.move_id
-        return True
+        return Invoice.id
 
     @api.multi
     def _default_account(self):
@@ -202,10 +210,12 @@ class PosOrder(models.Model):
                             inv_ids.l10n_mx_edi_update_pac_status()
                         except:
                             print("ERROR AL TIMBRAR FACTURA")
-                    # try:
-                    #     rec.create_payment_pos_invoice_lx(inv_ids.id)
-                    # except:
-                    #     print("NO PUDO CREARSE EL PAGO")
+                    try:
+                        rec.create_payment_pos_invoice_lx(inv_ids.id)
+                    except:
+                        print("NO PUDO CREARSE EL PAGO")
+            return True
+        else:
             return True
 
     # @api.multi
@@ -307,7 +317,7 @@ class PosOrder(models.Model):
         else:
             payment_method = self.env.ref('account.account_payment_method_manual_out')
         vals = {
-            'invoice_ids': [(6, 0, [invid])],
+            'invoice_ids': [(6, 0, inv.ids)],
             'amount' : inv.amount_total,
             'journal_id' : 12,
             'payment_date' : datetime.datetime.now(),
@@ -317,6 +327,7 @@ class PosOrder(models.Model):
             'payment_type': payment_type,
             'payment_method_id': payment_method.id
          }
+        print(vals)
         payment = self.env['account.payment'].create(vals)
         try:
             payment.post()
