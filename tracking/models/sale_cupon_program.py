@@ -5,6 +5,10 @@
 from odoo import fields, models, api, _
 from odoo.tools.safe_eval import safe_eval
 
+class SaleCouponReward(models.Model):
+	_inherit = 'sale.coupon.reward'
+	discount_type = fields.Selection([('percentage', 'Percentage'),('fixed_amount', 'Fixed Amount')], default="fixed_amount",help="Percentage - Entered percentage discount will be provided\n" + "Amount - Entered fixed amount discount will be provided")
+
 class SaleCuponProgram(models.Model):
 	_inherit = 'sale.coupon.program'
 

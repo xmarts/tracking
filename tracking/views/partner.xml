@@ -14,6 +14,7 @@
                     <field name="channelsales_id"/>
                 </xpath>
                 <xpath expr="//sheet/notebook/page[@name='sales_purchases']/group/group[@name='sale']/field[@name='message_bounce']" position="after">
+                    <field name="partner_type_lx"/>
                     <field name="zona"/>
                     <field name="zona2"/>
                     <field name="day1"/>

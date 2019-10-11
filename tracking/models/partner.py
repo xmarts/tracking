@@ -7,6 +7,7 @@ import logging
 _logger = logging.getLogger(__name__)
 class ResPartner(models.Model):
     _inherit="res.partner"
+    partner_type_lx = fields.Selection([('rutas','Ruta'),('mayorista','Mayorista'),('noident','No Identificado')], string="Tipo Cliente", default='rutas')
     phone = fields.Char(string="Telefono")
     name_commercial = fields.Char(string="Nombre Comercial")
     sector_id = fields.Many2one('partner.sector', string="Sector")

@@ -100,35 +100,77 @@ class PosOrder(models.Model):
     abono_credito = fields.Float(string="Abono al credito")
 
     @api.multi
+    def action_pos_order_invoice_create(self):
+        Invoice = self.env['account.invoice']
+
+        for order in self:
+            # Force company for all SUPERUSER_ID action
+            local_context = dict(self.env.context, force_company=order.company_id.id, company_id=order.company_id.id)
+            if order.invoice_id:
+                Invoice += order.invoice_id
+                continue
+
+            if not order.partner_id:
+                raise UserError(_('Please provide a partner for the sale.'))
+
+            invoice = Invoice.new(order._prepare_invoice())
+            invoice._onchange_partner_id()
+            invoice.fiscal_position_id = order.fiscal_position_id
+
+            inv = invoice._convert_to_write({name: invoice[name] for name in invoice._cache})
+            new_invoice = Invoice.with_context(local_context).sudo().create(inv)
+            message = _("This invoice has been created from the point of sale session: <a href=# data-oe-model=pos.order data-oe-id=%d>%s</a>") % (order.id, order.name)
+            new_invoice.message_post(body=message)
+            order.write({'invoice_id': new_invoice.id, 'state': 'invoiced'})
+            Invoice += new_invoice
+
+            for line in order.lines:
+                self.with_context(local_context)._action_create_invoice_line(line, new_invoice.id)
+
+            new_invoice.with_context(local_context).sudo().compute_taxes()
+            order.sudo().write({'state': 'invoiced'})
+            try:
+                Invoice.action_invoice_open()
+            except:
+                print("ERROR AL VALIDAR FACTURA")
+            if not Invoice.l10n_mx_edi_cfdi_uuid:
+                try:
+                    Invoice.l10n_mx_edi_update_pac_status()
+                except:
+                    print("ERROR AL TIMBRAR FACTURA")
+            if Invoice.move_id:
+                self.account_move = Invoice.move_id
+        return True
+
+    @api.multi
     def _default_account(self):
         journal = self.env['account.journal'].search([('type', '=', 'sale')], limit=1)
         return journal.default_credit_account_id.id
 
     @api.multi
     def action_pos_order_invoice_create_credito(self):
-        monto = float(self.monto_credito)
-        invoice_obj = self.env["account.invoice"]
-        invoice_line_obj = self.env["account.invoice.line"]
-        prd_account_id = self._default_account()
-        for rec in self:
-            # Create Invoice
-            if rec.partner_id:
-                curr_invoice = {
-                    'partner_id': rec.partner_id.id,
-                    'account_id': rec.partner_id.property_account_receivable_id.id,
-                    'state': 'draft',
-                    'type':'out_invoice',
-                    'date_invoice':datetime.date.today(),
-                    'origin': "PosOrder: " + rec.name,
-                    'sequence_number_next_prefix': False
-                }
+        if self.state != 'invoiced':
+            monto = float(self.monto_credito)
+            invoice_obj = self.env["account.invoice"]
+            invoice_line_obj = self.env["account.invoice.line"]
+            prd_account_id = self._default_account()
+            for rec in self:
+                # Create Invoice
+                if rec.partner_id:
+                    curr_invoice = {
+                        'partner_id': rec.partner_id.id,
+                        'account_id': rec.partner_id.property_account_receivable_id.id,
+                        'state': 'draft',
+                        'type':'out_invoice',
+                        'date_invoice':datetime.date.today(),
+                        'origin': "PosOrder: " + rec.name,
+                        'sequence_number_next_prefix': False
+                    }
 
-                inv_ids = invoice_obj.create(curr_invoice)
-                inv_id = inv_ids.id
+                    inv_ids = invoice_obj.create(curr_invoice)
+                    inv_id = inv_ids.id
 
-                if inv_ids:
-                    for x in rec.lines:
-
+                    if inv_ids:
                         # Create Invoice line
                         curr_invoice_line = {
                             'name': "Credito por venta "+str(rec.name),
@@ -142,94 +184,94 @@ class PosOrder(models.Model):
                         inv_line_ids = invoice_line_obj.create(curr_invoice_line)
                         inv_line_ids._set_taxes_lx(monto)
                         print(inv_line_ids.product_id.name,inv_line_ids.price_unit)
-                inv_ids.compute_onchange_invoice_line_ids()
-                for x in inv_ids.invoice_line_ids:
-                    print("1",x.product_id.name,x.price_unit)
-                inv_ids.invoice_line_move_line_get()
-                for x in inv_ids.invoice_line_ids:
-                    print("2",x.product_id.name,x.price_unit)
-                inv_ids.get_taxes_values()
-                for x in inv_ids.invoice_line_ids:
-                    print("3",x.product_id.name,x.price_unit)
-                try:
-                    inv_ids.action_invoice_open()
-                except:
-                    print("ERROR AL VALIDAR FACTURA")
-                if not inv_ids.l10n_mx_edi_cfdi_uuid:
+                    inv_ids.compute_onchange_invoice_line_ids()
+                    for x in inv_ids.invoice_line_ids:
+                        print("1",x.product_id.name,x.price_unit)
+                    inv_ids.invoice_line_move_line_get()
+                    for x in inv_ids.invoice_line_ids:
+                        print("2",x.product_id.name,x.price_unit)
+                    inv_ids.get_taxes_values()
+                    for x in inv_ids.invoice_line_ids:
+                        print("3",x.product_id.name,x.price_unit)
                     try:
-                        inv_ids.l10n_mx_edi_update_pac_status()
+                        inv_ids.action_invoice_open()
                     except:
-                        print("ERROR AL TIMBRAR FACTURA")
-                # try:
-                #     rec.create_payment_pos_invoice_lx(inv_ids.id)
-                # except:
-                #     print("NO PUDO CREARSE EL PAGO")
-        return True
+                        print("ERROR AL VALIDAR FACTURA")
+                    if not inv_ids.l10n_mx_edi_cfdi_uuid:
+                        try:
+                            inv_ids.l10n_mx_edi_update_pac_status()
+                        except:
+                            print("ERROR AL TIMBRAR FACTURA")
+                    # try:
+                    #     rec.create_payment_pos_invoice_lx(inv_ids.id)
+                    # except:
+                    #     print("NO PUDO CREARSE EL PAGO")
+            return True
 
-    @api.multi
-    def action_pos_order_invoice_create(self):
-        invoice_obj = self.env["account.invoice"]
-        invoice_line_obj = self.env["account.invoice.line"]
+    # @api.multi
+    # def action_pos_order_invoice_create(self):
+    #     invoice_obj = self.env["account.invoice"]
+    #     invoice_line_obj = self.env["account.invoice.line"]
 
-        for rec in self:
-            # Create Invoice
-            if rec.partner_id:
-                curr_invoice = {
-                    'partner_id': rec.partner_id.id,
-                    'account_id': rec.partner_id.property_account_receivable_id.id,
-                    'state': 'draft',
-                    'type':'out_invoice',
-                    'date_invoice':datetime.date.today(),
-                    'origin': "PosOrder: " + rec.name,
-                    'sequence_number_next_prefix': False
-                }
+    #     for rec in self:
+    #         # Create Invoice
+    #         if rec.partner_id:
+    #             curr_invoice = {
+    #                 'partner_id': rec.partner_id.id,
+    #                 'account_id': rec.partner_id.property_account_receivable_id.id,
+    #                 'state': 'draft',
+    #                 'type':'out_invoice',
+    #                 'date_invoice':datetime.date.today(),
+    #                 'origin': "PosOrder: " + rec.name,
+    #                 'sequence_number_next_prefix': False
+    #             }
 
-                inv_ids = invoice_obj.create(curr_invoice)
-                inv_id = inv_ids.id
+    #             inv_ids = invoice_obj.create(curr_invoice)
+    #             inv_id = inv_ids.id
 
-                if inv_ids:
-                    for x in rec.lines:
+    #             if inv_ids:
+    #                 for x in rec.lines:
 
-                        # Create Invoice line
-                        curr_invoice_line = {
-                            'name': x.product_id.name,
-                            'product_id': x.product_id.id,
-                            'price_unit': x.price_unit or 0,
-                            'quantity': x.qty,
-                            'account_id': x.product_id.categ_id.property_account_income_categ_id.id,
-                            'invoice_id': inv_id,
-                            'uom_id': x.product_id.uom_id.id,
-                            'invoice_line_tax_ids': [(6,0,x.product_id.taxes_id.ids)]
-                        }
-                        print("CREAR FACTURA ::::::",curr_invoice_line)
+    #                     # Create Invoice line
+    #                     curr_invoice_line = {
+    #                         'name': x.product_id.name,
+    #                         'product_id': x.product_id.id,
+    #                         'price_unit': x.price_unit or 0,
+    #                         'quantity': x.qty,
+    #                         'account_id': x.product_id.categ_id.property_account_income_categ_id.id,
+    #                         'invoice_id': inv_id,
+    #                         'uom_id': x.product_id.uom_id.id,
+    #                         'invoice_line_tax_ids': [(6,0,x.product_id.taxes_id.ids)]
+    #                     }
+    #                     print("CREAR FACTURA ::::::",curr_invoice_line)
 
-                        inv_line_ids = invoice_line_obj.create(curr_invoice_line)
-                        inv_line_ids._set_taxes_lx(x.price_unit)
-                        print(inv_line_ids.product_id.name,inv_line_ids.price_unit)
-                inv_ids.compute_onchange_invoice_line_ids()
-                for x in inv_ids.invoice_line_ids:
-                    print("1",x.product_id.name,x.price_unit)
-                inv_ids.invoice_line_move_line_get()
-                for x in inv_ids.invoice_line_ids:
-                    print("2",x.product_id.name,x.price_unit)
-                inv_ids.get_taxes_values()
-                for x in inv_ids.invoice_line_ids:
-                    print("3",x.product_id.name,x.price_unit)
-                try:
-                    inv_ids.action_invoice_open()
-                except:
-                    print("ERROR AL VALIDAR FACTURA")
-                if not inv_ids.l10n_mx_edi_cfdi_uuid:
-                    try:
-                        inv_ids.l10n_mx_edi_update_pac_status()
-                    except:
-                        print("ERROR AL TIMBRAR FACTURA")
-                rec.invoice_id = inv_ids.id
-                # try:
-                #     rec.create_payment_pos_invoice_lx(inv_ids.id)
-                # except:
-                #     print("NO PUDO CREARSE EL PAGO")
-        return True
+    #                     inv_line_ids = invoice_line_obj.create(curr_invoice_line)
+    #                     inv_line_ids._set_taxes_lx(x.price_unit)
+    #                     print(inv_line_ids.product_id.name,inv_line_ids.price_unit)
+    #             inv_ids.compute_onchange_invoice_line_ids()
+    #             for x in inv_ids.invoice_line_ids:
+    #                 print("1",x.product_id.name,x.price_unit)
+    #             inv_ids.invoice_line_move_line_get()
+    #             for x in inv_ids.invoice_line_ids:
+    #                 print("2",x.product_id.name,x.price_unit)
+    #             inv_ids.get_taxes_values()
+    #             for x in inv_ids.invoice_line_ids:
+    #                 print("3",x.product_id.name,x.price_unit)
+    #             try:
+    #                 inv_ids.action_invoice_open()
+    #             except:
+    #                 print("ERROR AL VALIDAR FACTURA")
+    #             if not inv_ids.l10n_mx_edi_cfdi_uuid:
+    #                 try:
+    #                     inv_ids.l10n_mx_edi_update_pac_status()
+    #                 except:
+    #                     print("ERROR AL TIMBRAR FACTURA")
+    #             rec.invoice_id = inv_ids.id
+    #             # try:
+    #             #     rec.create_payment_pos_invoice_lx(inv_ids.id)
+    #             # except:
+    #             #     print("NO PUDO CREARSE EL PAGO")
+    #     return True
 
     @api.multi
     def create_payment_pos_invoice_lx_abono(self):
