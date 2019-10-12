@@ -332,14 +332,17 @@ class PosOrder(models.Model):
         try:
             payment.post()
         except:
-            print("ERROR AL CONFIRMAR PAGO")
             try:
-                payment.l10n_mx_edi_update_pac_status()
+                payment.post()
             except:
-                print("ERROR AL CONFIRMAR PAGO EN 2DO INTENTO. FORZANDO REP")
+                print("ERROR AL CONFIRMAR PAGO")
                 try:
-                    payment.l10n_mx_edi_force_payment_complement()
+                    payment.l10n_mx_edi_update_pac_status()
                 except:
-                    print("ERROR EN TODOS LOS INTENTOS")
-                    return True
+                    print("ERROR AL CONFIRMAR PAGO EN 2DO INTENTO. FORZANDO REP")
+                    try:
+                        payment.l10n_mx_edi_force_payment_complement()
+                    except:
+                        print("ERROR EN TODOS LOS INTENTOS")
+                        return True
         return True
