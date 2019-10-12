@@ -318,7 +318,7 @@ class PosOrder(models.Model):
             payment_method = self.env.ref('account.account_payment_method_manual_out')
         vals = {
             'invoice_ids': [(6, 0, inv.ids)],
-            'amount' : inv.amount_total,
+            'amount' : inv.amount_paid,
             'journal_id' : 12,
             'payment_date' : datetime.datetime.now(),
             'communication': inv.number,
@@ -333,5 +333,13 @@ class PosOrder(models.Model):
             payment.post()
         except:
             print("ERROR AL CONFIRMAR PAGO")
-            return True
+            try:
+                payment.l10n_mx_edi_update_pac_status()
+            except:
+                print("ERROR AL CONFIRMAR PAGO EN 2DO INTENTO. FORZANDO REP")
+                try:
+                    payment.l10n_mx_edi_force_payment_complement()
+                except:
+                    print("ERROR EN TODOS LOS INTENTOS")
+                    return True
         return True
