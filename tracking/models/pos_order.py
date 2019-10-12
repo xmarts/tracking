@@ -318,7 +318,7 @@ class PosOrder(models.Model):
             payment_method = self.env.ref('account.account_payment_method_manual_out')
         vals = {
             'invoice_ids': [(6, 0, inv.ids)],
-            'amount' : inv.amount_paid,
+            'amount' : self.amount_paid,
             'journal_id' : 12,
             'payment_date' : datetime.datetime.now(),
             'communication': inv.number,
