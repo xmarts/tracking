@@ -26,6 +26,22 @@ class ResPartner(models.Model):
                             selection=[('monday', 'Lunes'), ('tuesday', 'Martes'), ('wednesday', 'Miércoles'),
                                        ('thursday', 'Jueves'), ('friday', 'Viernes'), ('saturday', 'Sábado'),
                                        ('sunday', 'Domingo')])
+    day4 = fields.Selection(string="Día de Entrega 4 ",
+                            selection=[('monday', 'Lunes'), ('tuesday', 'Martes'), ('wednesday', 'Miércoles'),
+                                       ('thursday', 'Jueves'), ('friday', 'Viernes'), ('saturday', 'Sábado'),
+                                       ('sunday', 'Domingo')])
+    day5 = fields.Selection(string="Día de Entrega 5 ",
+                            selection=[('monday', 'Lunes'), ('tuesday', 'Martes'), ('wednesday', 'Miércoles'),
+                                       ('thursday', 'Jueves'), ('friday', 'Viernes'), ('saturday', 'Sábado'),
+                                       ('sunday', 'Domingo')])
+    day6 = fields.Selection(string="Día de Entrega 6 ",
+                            selection=[('monday', 'Lunes'), ('tuesday', 'Martes'), ('wednesday', 'Miércoles'),
+                                       ('thursday', 'Jueves'), ('friday', 'Viernes'), ('saturday', 'Sábado'),
+                                       ('sunday', 'Domingo')])
+    day7 = fields.Selection(string="Día de Entrega 7 ",
+                            selection=[('monday', 'Lunes'), ('tuesday', 'Martes'), ('wednesday', 'Miércoles'),
+                                       ('thursday', 'Jueves'), ('friday', 'Viernes'), ('saturday', 'Sábado'),
+                                       ('sunday', 'Domingo')])
     sellersecundary_id = fields.Many2one('res.users', string="Vendedor Secundario")
     process = fields.Boolean(string="A procesar", default=False)
     date = fields.Date(string="Fecha")
