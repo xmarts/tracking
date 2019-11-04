@@ -99,6 +99,7 @@ class PosOrder(models.Model):
     monto_credito = fields.Float(string="Credito Solicitado")
     abono_credito = fields.Float(string="Abono al credito")
     orden_ruta_id = fields.Many2one('route.order', string="Ruta Origen")
+    folio_venta = fields.Char(string="Folio de venta", help="Folio comunmente proporcionado por tiendas OXXO")
 
     @api.multi
     def action_pos_order_invoicepayment_create(self):

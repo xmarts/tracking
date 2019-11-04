@@ -24,6 +24,7 @@
                     <field name="day5"/>
                     <field name="day6"/>
                     <field name="day7"/>
+                    <field name="usa_folio"/>
 
                 </xpath>
                 <xpath expr="//sheet/notebook/page[@name='sales_purchases']/group/group/field[@name='ref']" position="after">

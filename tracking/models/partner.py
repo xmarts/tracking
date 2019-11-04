@@ -49,6 +49,9 @@ class ResPartner(models.Model):
                                        selection=[('local', 'Locales'), ('autoservice', 'Autoservicio'), ('distribuitor', 'Distribuidores'),
                                        ('export', 'Exportaciones'), ('special', 'Especiales')])
     whithout_invoice = fields.Boolean(string="Sin Factura", default=False)
+
+    usa_folio = fields.Boolean(string="Usa Folio ?", default=False, help="Se marca cuando el cliente usa un folio para registrar su venta, por ejemplo OXXO.")
+
     @api.model
     def create(self, vals):
         child_id = []
