@@ -24,7 +24,7 @@
             <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//header" position="inside">
-                    <button name="action_pos_order_invoice_create" string="Test" type="object" />
+                    <button name="action_pos_order_invoicepayment_create" string="Crear Factura" type="object" />
                 </xpath>
             </field>
         </record>

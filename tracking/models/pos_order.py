@@ -103,9 +103,31 @@ class PosOrder(models.Model):
 
     @api.multi
     def action_pos_order_invoicepayment_create(self):
+        self.recalcula_descuento()
         self.action_pos_order_invoice_create()
         self.create_payment_pos_invoice_lx(self.invoice_id.id)
         return True
+
+    @api.multi
+    def recalcula_descuento(self):
+        for order in self:
+            td = 0
+            tl = 0
+            for x in order.lines:
+                if x.price_subtotal_incl <=0:
+                    td += x.price_subtotal_incl
+                else:
+                    tl += x.price_subtotal_incl
+
+            percent = ((td*-1)/tl)*100
+
+            for x in order.lines:
+                if x.price_subtotal_incl <=0:
+                    x.unlink()
+                else:
+                    x.discount += percent
+
+
 
 
     @api.multi
@@ -134,7 +156,8 @@ class PosOrder(models.Model):
             Invoice += new_invoice
 
             for line in order.lines:
-                self.with_context(local_context)._action_create_invoice_line(line, new_invoice.id)
+                if line.price_subtotal_incl > 0:
+                    self.with_context(local_context)._action_create_invoice_line(line, new_invoice.id)
 
             new_invoice.with_context(local_context).sudo().compute_taxes()
             order.sudo().write({'state': 'invoiced'})
