@@ -7,7 +7,7 @@ import logging
 _logger = logging.getLogger(__name__)
 class ResPartner(models.Model):
     _inherit="res.partner"
-    partner_type_lx = fields.Selection([('rutas','Ruta'),('mayorista','Mayorista'),('noident','No Identificado')], string="Tipo Cliente", default='rutas')
+    partner_type_lx = fields.Selection([('rutas','Ruta'),('maquila','Maquila'),('autoservicios','Autoservicios'),('mayorista','Mayorista'),('noident','No Identificado')], string="Tipo Cliente", default='rutas')
     phone = fields.Char(string="Telefono")
     name_commercial = fields.Char(string="Nombre Comercial")
     sector_id = fields.Many2one('partner.sector', string="Sector")
@@ -42,6 +42,14 @@ class ResPartner(models.Model):
                             selection=[('monday', 'Lunes'), ('tuesday', 'Martes'), ('wednesday', 'Miércoles'),
                                        ('thursday', 'Jueves'), ('friday', 'Viernes'), ('saturday', 'Sábado'),
                                        ('sunday', 'Domingo')])
+    dia_lunes = fields.Boolean(string="Día de Entrega 1", default=False)
+    dia_martes = fields.Boolean(string="Día de Entrega 2", default=False)
+    dia_miercoles = fields.Boolean(string="Día de Entrega 3", default=False)
+    dia_jueves = fields.Boolean(string="Día de Entrega 4", default=False)
+    dia_viernes = fields.Boolean(string="Día de Entrega 5", default=False)
+    dia_sabado = fields.Boolean(string="Día de Entrega 6", default=False)
+    dia_domingo = fields.Boolean(string="Día de Entrega 7", default=False)
+
     sellersecundary_id = fields.Many2one('res.users', string="Vendedor Secundario")
     process = fields.Boolean(string="A procesar", default=False)
     date = fields.Date(string="Fecha")
