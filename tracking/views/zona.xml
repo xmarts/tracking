@@ -22,7 +22,8 @@
                 <form string="Zonas Preventa">
                     <sheet>
                         <group >
-                           <field name="name" />
+                            <field name="codigo" />
+                            <field name="name" />
                             <field name="user_id" />
                             <field name="pos_id" />
                             <field name="type" />
