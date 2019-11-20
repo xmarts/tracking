@@ -8,6 +8,7 @@
                 <xpath expr="//field[@name='category_ids']" position="before">
                     <group>
                         <field name="password" placeholder="contraseña"/>
+                        <field name="rol_type" placeholder="Tipo Usuario LXTrack"/>
                     </group>
                 </xpath>
             </field>

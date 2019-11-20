@@ -7,7 +7,11 @@ _logger = logging.getLogger(__name__)
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
     password = fields.Char('Contraseña')
-
+    rol_type = fields.Selection([
+        ('VERE', 'Vendedor'),
+        ('VE', 'Preventa'),
+        ('RE', 'Reparto')
+    ], string='Type', copy=False, default='VERE')
     @api.model
     def create(self, vals):
         if vals['password'] is not False or vals['password'] is not  None:
