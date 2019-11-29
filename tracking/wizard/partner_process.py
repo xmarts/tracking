@@ -35,3 +35,23 @@ class PartnerProcess(models.TransientModel):
                 'zone_id': p.zona.id
             }
             route.create(vals)
+
+    @api.multi
+    def process2(self):
+        partner = self.env['res.partner'].browse(self._context.get('active_ids', []))
+        total = len(partner)
+        route = self.env['route.order']
+        for p in partner:
+            shipping= self.env['res.partner'].search([('parent_id','=',p.id),('type','=','delivery')])
+            shipping_id = shipping.id
+            if shipping.id is False:
+                shipping_id = p.id
+
+            vals = {
+                'name': 'New',
+                'partner_id': p.id,
+                'partner_shipping_id':shipping_id,
+                'manage_id':p.zonalac.user_id.id,
+                'zone_id': p.zonalac.id
+            }
+            route.create(vals)

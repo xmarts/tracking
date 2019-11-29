@@ -5,45 +5,60 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
-             <xpath expr="//form/sheet/group/group/field[@name='type']" position="after">
+                <xpath expr="//form/sheet/group/group/field[@name='type']" position="after">
                     <field name="name_commercial"/>
-             </xpath>
+                </xpath>
                 <xpath expr="//form/sheet/group/group/field[@name='lang']" position="after">
                     <field name="sector_id"/>
                     <field name="categorysector_id"/>
                     <field name="channelsales_id"/>
                 </xpath>
-                <xpath expr="//sheet/notebook/page[@name='sales_purchases']/group/group[@name='sale']/field[@name='message_bounce']" position="after">
-                    <field name="partner_type_lx"/>
-                    <field name="zona"/>
-                    <field name="zona2"/>
-                    <field name="day1" invisible="1"/>
-                    <field name="day2" invisible="1"/>
-                    <field name="day3" invisible="1"/>
-                    <field name="day4" invisible="1"/>
-                    <field name="day5" invisible="1"/>
-                    <field name="day6" invisible="1"/>
-                    <field name="day7" invisible="1"/>
-                    <field name="dia_lunes"/>
-                    <field name="dia_martes"/>
-                    <field name="dia_miercoles"/>
-                    <field name="dia_jueves"/>
-                    <field name="dia_viernes"/>
-                    <field name="dia_sabado"/>
-                    <field name="dia_domingo"/>
-
-
-                    <field name="usa_folio"/>
-
+                <xpath expr="//notebook" position="inside">
+                    <page string="Preventa/Venta">
+                        <group>
+                            <group>
+                                <field name="partner_type_lx"/>
+                                <field name="usa_folio"/>
+                            </group>
+                            <group>
+                                <field name="zona"/>
+                                <field name="zonalac"/>
+                                <field name="zona2"/>
+                            </group>
+                            <!-- <field name="day1" invisible="1"/>
+                            <field name="day2" invisible="1"/>
+                            <field name="day3" invisible="1"/>
+                            <field name="day4" invisible="1"/>
+                            <field name="day5" invisible="1"/>
+                            <field name="day6" invisible="1"/>
+                            <field name="day7" invisible="1"/> -->
+                            <group>
+                                <field name="dia_lunes"/>
+                                <field name="dia_martes"/>
+                                <field name="dia_miercoles"/>
+                                <field name="dia_jueves"/>
+                                <field name="dia_viernes"/>
+                                <field name="dia_sabado"/>
+                                <field name="dia_domingo"/>
+                            </group>
+                            <group>
+                                <field name="dia_ruta2_lunes"/>
+                                <field name="dia_ruta2_martes"/>
+                                <field name="dia_ruta2_miercoles"/>
+                                <field name="dia_ruta2_jueves"/>
+                                <field name="dia_ruta2_viernes"/>
+                                <field name="dia_ruta2_sabado"/>
+                                <field name="dia_ruta2_domingo"/>
+                            </group>
+                        </group>
+                    </page>
                 </xpath>
                 <xpath expr="//sheet/notebook/page[@name='sales_purchases']/group/group/field[@name='ref']" position="after">
                     <field name="sellersecundary_id"/>
                     <field name="process"/>
                     <field name="date"/>
                 </xpath>
-                
-
-            </field>
+        </field>
         </record>
         <record id="view_partnerres_form_inherit_two" model="ir.ui.view">
             <field name="name">view.partneres.form.add.text.field</field>

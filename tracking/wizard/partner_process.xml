@@ -14,6 +14,8 @@
                     <footer>
                         <button name="process" string="Procesar" type="object"
                             class="btn-primary"/>
+                        <button name="process2" string="Procesar Lacteos" type="object"
+                            class="btn-primary"/>
                         <button string="Cancel" class="btn-default" special="cancel"/>
                     </footer>
                 </form>
@@ -29,5 +31,6 @@
             view_type="form"
             target="new"
             id="action_res_partner_process"/>
+
 
 </odoo>

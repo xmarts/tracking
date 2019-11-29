@@ -13,6 +13,7 @@ class ResPartner(models.Model):
     sector_id = fields.Many2one('partner.sector', string="Sector")
     categorysector_id = fields.Many2one('category.sector', string="Categoria del Sector")
     zona = fields.Many2one('res.zona', string="Zona Preventa/Venta")
+    zonalac = fields.Many2one('res.zona', string="Zona Preventa/Venta Lacteos")
     zona2 = fields.Many2one('res.zona', string="Zona Reparto")
     day1 = fields.Selection(string="Día de Entrega 1 ",
                             selection=[('monday', 'Lunes'), ('tuesday', 'Martes'), ('wednesday', 'Miércoles'),
@@ -49,6 +50,14 @@ class ResPartner(models.Model):
     dia_viernes = fields.Boolean(string="Día de Entrega 5", default=False)
     dia_sabado = fields.Boolean(string="Día de Entrega 6", default=False)
     dia_domingo = fields.Boolean(string="Día de Entrega 7", default=False)
+
+    dia_ruta2_lunes = fields.Boolean(string="Día Entrega Lacteos 1", default=False)
+    dia_ruta2_martes = fields.Boolean(string="Día Entrega Lacteos 2", default=False)
+    dia_ruta2_miercoles = fields.Boolean(string="Dde Entrega Lacteos 3", default=False)
+    dia_ruta2_jueves = fields.Boolean(string="Día Entrega Lacteos 4", default=False)
+    dia_ruta2_viernes = fields.Boolean(string="Día Entrega Lacteos 5", default=False)
+    dia_ruta2_sabado = fields.Boolean(string="Día Entrega Lacteos 6", default=False)
+    dia_ruta2_domingo = fields.Boolean(string="Día Entrega Lacteos 7", default=False)
 
     sellersecundary_id = fields.Many2one('res.users', string="Vendedor Secundario")
     process = fields.Boolean(string="A procesar", default=False)
