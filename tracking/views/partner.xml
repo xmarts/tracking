@@ -68,6 +68,9 @@
                 <xpath expr="//page[@name='accounting']/group/group[@name='banks']/field[@name='bank_ids']" position="after">
                     <field name="whithout_invoice"/>
                 </xpath>
+                <xpath expr="//field[@name='user_id']" position="replace">
+                    <field name="user_id" string="Agente de ventas"/>
+                </xpath>
             </field>
         </record>
 
