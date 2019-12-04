@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="view_quotation_pos_report" model="ir.ui.view">
+            <field name="name">Reporte de carga</field>
+            <field name="model">quotatio.pos.report</field>
+            <field name="arch" type="xml">
+                <form string="Reporte de carga">
+                    <p class="oe_grey">
+                        Reporte de carga
+                    </p>
+                    <group>
+                        <field name="count" invisible="[('count','=',1)]" readonly="True"/>
+                    </group>
+                    <footer>
+                        <button name="process" string="Procesar" type="object"
+                            class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_quotation_pos_report">
+            <field name="name">Action Reporte de carga</field>
+            <field name="res_model">quotatio.pos.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_quotation_pos_report"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem name="Reporte de carga" id="reporte_carga_quot_pos" parent="point_of_sale.menu_point_rep"/>
+
+
+</odoo>
