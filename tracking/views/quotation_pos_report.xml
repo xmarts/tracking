@@ -5,14 +5,39 @@
             <field name="model">quotation.pos.report</field>
             <field name="arch" type="xml">
                 <form string="Reporte de carga">
+                    <header>
+                        <button name="action_process" states="draft" type="object" string="Calcular Carga"/>
+                        <button name="action_validate" states="draft" type="object" string="Validar"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
                     <sheet>
                         <p class="oe_grey">
-                            Reporte de carga
+                            <h3>Reporte de carga # <field name="name" readonly="1"/></h3>
                         </p>
+                        
                         <group>
-                            <field name="employee_id"/>
-                            <field name="date"/>
+                            <field name="employee_id" attrs="{'readonly': [('state', 'in', ['validate'])]}"/>
+                            <field name="date" attrs="{'readonly': [('state', 'in', ['validate'])]}"/>
                         </group>
+                        <notebook>
+                            <page string="Cotizaciones">
+                                <field name="pos_quotation_report_line" readonly="1">
+                                    <tree editable="bottom">
+                                        <field name="quotation_id" />
+                                        <field name="quotation_pos_report_id" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Productos">
+                                <field name="pos_quotation_report_products" readonly="1">
+                                    <tree editable="bottom">
+                                        <field name="product_id" />
+                                        <field name="qty" />
+                                        <field name="quotation_pos_report_id" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>
