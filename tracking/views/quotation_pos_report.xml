@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="view_quotation_pos_report" model="ir.ui.view">
+            <field name="name">Reporte de carga</field>
+            <field name="model">quotation.pos.report</field>
+            <field name="arch" type="xml">
+                <form string="Reporte de carga">
+                    <sheet>
+                        <p class="oe_grey">
+                            Reporte de carga
+                        </p>
+                        <group>
+                            <field name="employee_id"/>
+                            <field name="date"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_quotation_pos_report_tree" model="ir.ui.view">
+            <field name="name">Reporte de carga</field>
+            <field name="model">quotation.pos.report</field>
+            <field name="arch" type="xml">
+                <tree string="Reporte de carga">
+                    <field name="employee_id"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_quotation_pos_report">
+            <field name="name">Action Reporte de carga</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">quotation.pos.report</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Reporte de carga" id="reporte_carga_quot_pos" action="action_quotation_pos_report" parent="point_of_sale.menu_point_rep"/>
+
+
+</odoo>

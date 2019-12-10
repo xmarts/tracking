@@ -73,6 +73,48 @@
                 </xpath>
             </field>
         </record>
+        <record id="view_codigo_comprador_form" model="ir.ui.view">
+            <field name="name">Codigo Comprador</field>
+            <field name="model">codigo.comprador</field>
+            <field name="arch" type="xml">
+                <form string="Codigo Comprador">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="view_codigo_comprador_tree" model="ir.ui.view">
+            <field name="name">Codigo Comprador</field>
+            <field name="model">codigo.comprador</field>
+            <field name="arch" type="xml">
+                <tree string="Codigo Comprador">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_codigo_comprador">
+            <field name="name">Action Codigo Comprador</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">codigo.comprador</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem name="Codigo Comprador" id="codigo_comprador_menu" action="action_codigo_comprador" parent="contacts.res_partner_menu_config"/>
+        <record id="view_partnerres_form_inherit_thre" model="ir.ui.view">
+            <field name="name">view_partnerres_form_inherit_thre</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="purchase.view_partner_property_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='property_purchase_currency_id']" position="after">
+                    <field name="codigo_comprador"/>
+                </xpath>
+            </field>
+        </record>
 
     </data>
 </openerp>

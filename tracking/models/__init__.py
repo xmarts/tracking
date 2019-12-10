@@ -12,3 +12,4 @@ from . import pricelist
 from . import sale_cupon_program
 from . import pos_order
 from . import pos_quotation
+from . import quotation_pos_report

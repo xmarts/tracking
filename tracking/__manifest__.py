@@ -26,7 +26,9 @@ This module provides the lxtrack of the Odoo Web Client.
         #'reports/layout.xml',
         'wizard/partner_process.xml',
         'views/pricelist.xml',
-        'views/pos_quotation_view.xml'
+        'views/pos_quotation_view.xml',
+        'views/quotation_pos_report.xml',
+        'report/reporte_carga.xml'
     ],
     'bootstrap': True,
 }

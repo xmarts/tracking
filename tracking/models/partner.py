@@ -69,6 +69,8 @@ class ResPartner(models.Model):
 
     usa_folio = fields.Boolean(string="Usa Folio ?", default=False, help="Se marca cuando el cliente usa un folio para registrar su venta, por ejemplo OXXO.")
 
+    codigo_comprador = fields.Many2one('codigo.comprador',string="Codigo Comprador")
+
     @api.model
     def create(self, vals):
         child_id = []
@@ -79,3 +81,12 @@ class ResPartner(models.Model):
             if len(child_id[0]) == 0:
                 raise UserError('Es necesario dar de alta una  Dirección de Entrega')
         return super(ResPartner, self).create(vals)
+
+class CodigoComprador(models.Model):
+  """Modelo para codigo de comprador"""
+  _name = 'codigo.comprador'
+
+  name = fields.Char(
+      string='Codigo',
+  )
+    
