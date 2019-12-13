@@ -112,6 +112,7 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='property_purchase_currency_id']" position="after">
                     <field name="codigo_comprador"/>
+                    <field name="plaza"/>
                 </xpath>
             </field>
         </record>

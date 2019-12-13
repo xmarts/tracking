@@ -70,6 +70,7 @@ class ResPartner(models.Model):
     usa_folio = fields.Boolean(string="Usa Folio ?", default=False, help="Se marca cuando el cliente usa un folio para registrar su venta, por ejemplo OXXO.")
 
     codigo_comprador = fields.Many2one('codigo.comprador',string="Codigo Comprador")
+    plaza = fields.Char(string="Plaza")
 
     @api.model
     def create(self, vals):
