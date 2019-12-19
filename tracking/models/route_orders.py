@@ -29,6 +29,7 @@ class RouteOrder(models.Model):
         ('3', 'Incompleta'),
         ('4', 'Completa'),
         ('5', 'Cancelada'),
+        ('6', 'Cerrado'),
         ('11', 'Error')
         ], string='Estado', copy=False, default='0', readonly=True)
     sale_order_id = fields.Many2one('sale.order', string='Pedido de venta', required=False, readonly=True )
