@@ -23,8 +23,10 @@ class PartnerProcess(models.TransientModel):
         route = self.env['route.order']
         for p in partner:
             shipping= self.env['res.partner'].search([('parent_id','=',p.id),('type','=','delivery')])
-            shipping_id = shipping.id
-            if shipping.id is False:
+            shipping_id = False
+            if shipping:
+                shipping_id = shipping.id
+            else:
                 shipping_id = p.id
 
             vals = {
@@ -43,8 +45,10 @@ class PartnerProcess(models.TransientModel):
         route = self.env['route.order']
         for p in partner:
             shipping= self.env['res.partner'].search([('parent_id','=',p.id),('type','=','delivery')])
-            shipping_id = shipping.id
-            if shipping.id is False:
+            shipping_id = False
+            if shipping:
+                shipping_id = shipping.id
+            else:
                 shipping_id = p.id
 
             vals = {
