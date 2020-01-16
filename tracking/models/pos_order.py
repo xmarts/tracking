@@ -105,7 +105,7 @@ class PosOrder(models.Model):
     def action_pos_order_invoicepayment_create(self):
         self.recalcula_descuento()
         self.action_pos_order_invoice_create()
-        self.create_payment_pos_invoice_lx(self.invoice_id.id)
+        # self.create_payment_pos_invoice_lx(self.invoice_id.id)
         return True
 
     @api.multi
@@ -225,19 +225,19 @@ class PosOrder(models.Model):
                     inv_ids.get_taxes_values()
                     for x in inv_ids.invoice_line_ids:
                         print("3",x.product_id.name,x.price_unit)
-                    try:
-                        inv_ids.action_invoice_open()
-                    except:
-                        print("ERROR AL VALIDAR FACTURA")
-                    if not inv_ids.l10n_mx_edi_cfdi_uuid:
-                        try:
-                            inv_ids.l10n_mx_edi_update_pac_status()
-                        except:
-                            print("ERROR AL TIMBRAR FACTURA")
-                    try:
-                        rec.create_payment_pos_invoice_lx(inv_ids.id)
-                    except:
-                        print("NO PUDO CREARSE EL PAGO")
+                    # try:
+                    #     inv_ids.action_invoice_open()
+                    # except:
+                    #     print("ERROR AL VALIDAR FACTURA")
+                    # if not inv_ids.l10n_mx_edi_cfdi_uuid:
+                    #     try:
+                    #         inv_ids.l10n_mx_edi_update_pac_status()
+                    #     except:
+                    #         print("ERROR AL TIMBRAR FACTURA")
+                    # try:
+                    #     rec.create_payment_pos_invoice_lx(inv_ids.id)
+                    # except:
+                    #     print("NO PUDO CREARSE EL PAGO")
             return True
         else:
             return True
