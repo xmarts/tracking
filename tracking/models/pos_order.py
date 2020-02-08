@@ -87,11 +87,23 @@ class AccountInvoice(models.Model):
 
     @api.multi
     def compute_onchange_invoice_line_ids(self):
+    #     self.fun_invoice_line_ids()
+    #     print("fun_invoice_line_ids")
         taxes_grouped = self.get_taxes_values()
         tax_lines = self.tax_line_ids.filtered('manual')
         for tax in taxes_grouped.values():
             tax_lines += tax_lines.new(tax)
         self.tax_line_ids = tax_lines
+        taxes_grouped = self.get_taxes_values()
+        tax_lines = self.tax_line_ids.filtered('manual')
+        for tax in taxes_grouped.values():
+            tax_lines += tax_lines.new(tax)
+        self.tax_line_ids = tax_lines
+        taxes_groupedi = self.get_taxes_values_ieps()
+        tax_linesi = self.line_tax_ids_ieps.filtered('manual')
+        for tax in taxes_groupedi.values():
+            tax_linesi += tax_linesi.new(tax)
+        self.line_tax_ids_ieps = tax_linesi
         return
 
 class PosOrder(models.Model):
@@ -160,16 +172,17 @@ class PosOrder(models.Model):
                     self.with_context(local_context)._action_create_invoice_line(line, new_invoice.id)
 
             new_invoice.with_context(local_context).sudo().compute_taxes()
+            new_invoice.compute_onchange_invoice_line_ids()
             order.sudo().write({'state': 'invoiced'})
-            try:
-                Invoice.action_invoice_open()
-            except:
-                print("ERROR AL VALIDAR FACTURA")
-            if not Invoice.l10n_mx_edi_cfdi_uuid:
-                try:
-                    Invoice.l10n_mx_edi_update_pac_status()
-                except:
-                    print("ERROR AL TIMBRAR FACTURA")
+            # try:
+            #     Invoice.action_invoice_open()
+            # except:
+            #     print("ERROR AL VALIDAR FACTURA")
+            # if not Invoice.l10n_mx_edi_cfdi_uuid:
+            #     try:
+            #         Invoice.l10n_mx_edi_update_pac_status()
+            #     except:
+            #         print("ERROR AL TIMBRAR FACTURA")
             if Invoice.move_id:
                 self.account_move = Invoice.move_id
         return Invoice.id
@@ -216,15 +229,10 @@ class PosOrder(models.Model):
                         inv_line_ids = invoice_line_obj.create(curr_invoice_line)
                         inv_line_ids._set_taxes_lx(monto)
                         print(inv_line_ids.product_id.name,inv_line_ids.price_unit)
-                    inv_ids.compute_onchange_invoice_line_ids()
-                    for x in inv_ids.invoice_line_ids:
-                        print("1",x.product_id.name,x.price_unit)
-                    inv_ids.invoice_line_move_line_get()
-                    for x in inv_ids.invoice_line_ids:
-                        print("2",x.product_id.name,x.price_unit)
+                    inv_ids._onchange_invoice_line_ids()
+                    inv_ids._onchange_invoice_line_ids_ieps()
+                    # inv_ids.invoice_line_move_line_get()
                     inv_ids.get_taxes_values()
-                    for x in inv_ids.invoice_line_ids:
-                        print("3",x.product_id.name,x.price_unit)
                     # try:
                     #     inv_ids.action_invoice_open()
                     # except:
