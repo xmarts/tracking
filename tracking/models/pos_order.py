@@ -94,16 +94,16 @@ class AccountInvoice(models.Model):
         for tax in taxes_grouped.values():
             tax_lines += tax_lines.new(tax)
         self.tax_line_ids = tax_lines
-        taxes_grouped = self.get_taxes_values()
-        tax_lines = self.tax_line_ids.filtered('manual')
-        for tax in taxes_grouped.values():
-            tax_lines += tax_lines.new(tax)
-        self.tax_line_ids = tax_lines
-        taxes_groupedi = self.get_taxes_values_ieps()
-        tax_linesi = self.line_tax_ids_ieps.filtered('manual')
-        for tax in taxes_groupedi.values():
-            tax_linesi += tax_linesi.new(tax)
-        self.line_tax_ids_ieps = tax_linesi
+        # taxes_grouped = self.get_taxes_values()
+        # tax_lines = self.tax_line_ids.filtered('manual')
+        # for tax in taxes_grouped.values():
+        #     tax_lines += tax_lines.new(tax)
+        # self.tax_line_ids = tax_lines
+        # taxes_groupedi = self.get_taxes_values_ieps()
+        # tax_linesi = self.line_tax_ids_ieps.filtered('manual')
+        # for tax in taxes_groupedi.values():
+        #     tax_linesi += tax_linesi.new(tax)
+        # self.line_tax_ids_ieps = tax_linesi
         return
 
 class PosOrder(models.Model):
