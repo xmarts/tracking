@@ -184,11 +184,8 @@ class PosOrder(models.Model):
             #         Invoice.l10n_mx_edi_update_pac_status()
             #     except:
             #         print("ERROR AL TIMBRAR FACTURA")
-<<<<<<< HEAD
-=======
             if self.direccion_cliente_id:
                 Invoice.partner_shipping_id = self.direccion_cliente_id.id
->>>>>>> 020320
             if Invoice.move_id:
                 self.account_move = Invoice.move_id
         return Invoice.id
