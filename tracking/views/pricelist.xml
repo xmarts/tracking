@@ -40,6 +40,7 @@
                 </xpath>
                 <xpath expr="//field[@name='partner_id']" position="after">
                    <field name="folio_venta" />
+                   <field name="direccion_cliente_id" />
                 </xpath>
             </field>
     </record>
