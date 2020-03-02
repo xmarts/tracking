@@ -112,6 +112,7 @@ class PosOrder(models.Model):
     abono_credito = fields.Float(string="Abono al credito")
     orden_ruta_id = fields.Many2one('route.order', string="Ruta Origen")
     folio_venta = fields.Char(string="Folio de venta", help="Folio comunmente proporcionado por tiendas OXXO")
+    direccion_cliente_id = fields.Many2one('res.partner',string="Direccion de envio")
 
     @api.multi
     def action_pos_order_invoicepayment_create(self):
@@ -183,6 +184,11 @@ class PosOrder(models.Model):
             #         Invoice.l10n_mx_edi_update_pac_status()
             #     except:
             #         print("ERROR AL TIMBRAR FACTURA")
+<<<<<<< HEAD
+=======
+            if self.direccion_cliente_id:
+                Invoice.partner_shipping_id = self.direccion_cliente_id.id
+>>>>>>> 020320
             if Invoice.move_id:
                 self.account_move = Invoice.move_id
         return Invoice.id
