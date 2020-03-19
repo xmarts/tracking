@@ -22,7 +22,7 @@ class PartnerProcess(models.TransientModel):
         total = len(partner)
         route = self.env['route.order']
         for p in partner:
-            shipping= self.env['res.partner'].search([('parent_id','=',p.id),('type','=','delivery')])
+            shipping= self.env['res.partner'].search([('parent_id','=',p.id),('type','=','delivery')], limit=1)
             shipping_id = False
             if shipping:
                 shipping_id = shipping.id
@@ -44,7 +44,7 @@ class PartnerProcess(models.TransientModel):
         total = len(partner)
         route = self.env['route.order']
         for p in partner:
-            shipping= self.env['res.partner'].search([('parent_id','=',p.id),('type','=','delivery')])
+            shipping= self.env['res.partner'].search([('parent_id','=',p.id),('type','=','delivery')], limit=1)
             shipping_id = False
             if shipping:
                 shipping_id = shipping.id
