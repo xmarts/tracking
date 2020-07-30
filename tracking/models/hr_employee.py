@@ -12,21 +12,22 @@ class HrEmployee(models.Model):
         ('VE', 'Preventa'),
         ('RE', 'Reparto')
     ], string='Type', copy=False, default='VERE')
-    @api.model
-    def create(self, vals):
-        if vals['password'] is not False or vals['password'] is not  None:
-            val=str(vals['password']).encode('utf-8')
-            pasw= sha1(val).hexdigest()
-            vals['password']=pasw
-        return super(HrEmployee, self).create(vals)
 
-    @api.one
-    def write(self, vals):
-        if vals.get('password'):
-            val=str(vals['password']).encode('utf-8')
-            pasw= sha1(val).hexdigest()
-            vals['password']=pasw
-        return super(HrEmployee, self).write(vals)
+    # @api.model
+    # def create(self, vals):
+    #     if vals['password'] is not False or vals['password'] is not  None:
+    #         val=str(vals['password']).encode('utf-8')
+    #         pasw= sha1(val).hexdigest()
+    #         vals['password']=pasw
+    #     return super(HrEmployee, self).create(vals)
+
+    # @api.one
+    # def write(self, vals):
+    #     if vals.get('password'):
+    #         val=str(vals['password']).encode('utf-8')
+    #         pasw= sha1(val).hexdigest()
+    #         vals['password']=pasw
+    #     return super(HrEmployee, self).write(vals)
 
 
     def init(self):
