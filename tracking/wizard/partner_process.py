@@ -19,6 +19,15 @@ class PartnerProcess(models.TransientModel):
     @api.multi
     def process(self):
         partner = self.env['res.partner'].browse(self._context.get('active_ids', []))
+        zona = ''
+        for rec in partner:
+            zona = rec.zona.id
+        res_p =self.env['res.partner'].search([('zona', '=', zona)])
+        for record in res_p:
+            empleado = self.env['hr.employee'].search([('address_home_id', '=', record.id)])
+            for emp in empleado:
+                if emp.ruta_open == False:
+                    emp.ruta_open = True
         total = len(partner)
         route = self.env['route.order']
         for p in partner:

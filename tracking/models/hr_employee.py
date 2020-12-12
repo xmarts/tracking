@@ -12,6 +12,7 @@ class HrEmployee(models.Model):
         ('VE', 'Preventa'),
         ('RE', 'Reparto')
     ], string='Type', copy=False, default='VERE')
+    ruta_open = fields.Boolean(string="Ruta abierta", default=False)
 
     # @api.model
     # def create(self, vals):

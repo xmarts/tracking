@@ -9,6 +9,8 @@
                     <group>
                         <field name="password" placeholder="contraseña"/>
                         <field name="rol_type" string="Tipo Usuario LXTrack"/>
+                        <field name="ruta_open"/>
+
                     </group>
                 </xpath>
             </field>
