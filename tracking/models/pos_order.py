@@ -194,6 +194,7 @@ class PosOrder(models.Model):
             'zona': self.direccion_cliente_id.zona,
             'tipo_cliente': self.direccion_cliente_id.partner_type_lx,
             'number_store': self.direccion_cliente_id.shipping_number_store,
+            'journal_id': order.session_id.config_id.journal_id.id
         })
         return Invoice.id
 
