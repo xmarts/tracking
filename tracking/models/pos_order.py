@@ -188,6 +188,13 @@ class PosOrder(models.Model):
                 Invoice.partner_shipping_id = self.direccion_cliente_id.id
             if Invoice.move_id:
                 self.account_move = Invoice.move_id
+        print(Invoice.id)
+        Invoice.update({
+            'addenda_folio': self.folio_venta,
+            'zona': self.direccion_cliente_id.zona,
+            'tipo_cliente': self.direccion_cliente_id.partner_type_lx,
+            'number_store': self.direccion_cliente_id.shipping_number_store,
+        })
         return Invoice.id
 
     @api.multi
