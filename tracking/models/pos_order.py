@@ -189,7 +189,13 @@ class PosOrder(models.Model):
             if Invoice.move_id:
                 self.account_move = Invoice.move_id
         print(Invoice.id)
+        cliente = ''
+        if self.partner_id.parent_id:
+            cliente = self.partner_id.parent_id.id
+        else:
+            cliente = self.partner_id.id
         Invoice.update({
+            'partner_id': cliente,
             'addenda_folio': self.folio_venta,
             'zona': self.direccion_cliente_id.zona,
             'tipo_cliente': self.direccion_cliente_id.partner_type_lx,
