@@ -38,7 +38,7 @@ class RouteOrder(models.Model):
     zone_id = fields.Many2one('res.zona', string="Zona", required=True)
     sync_error = fields.Char(string="Sync Error", readonly=True)
     cancel_mot = fields.Selection([('0','Sin Cancelar'),('1','No Quiso'),('2','Negocio cerrado'),('3','Pospone fecha'),('4','Cliente sin dinero'),('5','No tengo producto'),('6','Recuperación cobranza'),('7','No visitado')], string="Motivo Cancelacion", default="0")
-
+    zona_reparto = fields.Many2one('res.zona', string="Zona de reparto", related="partner_id.zona2")
 
     @api.model
     def create(self, vals):
