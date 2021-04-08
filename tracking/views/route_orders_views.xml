@@ -82,7 +82,7 @@
                         <field name="date_order" />
                         <field name="manage_id" />
                         <field name="zone_id" />
-                        <field name="zona_reparto"/>
+                        <field name="zona_repartos"/>
                         <field name="comentary" />
                         <field name="stock_picking_id" />
                         <field name="sale_order_id" />
