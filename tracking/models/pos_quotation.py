@@ -18,8 +18,16 @@ class PosQuotationLX(models.Model):
 	    string='Sincronizado con LXTRACK ?',
 	    default=False
 	)
+	state = fields.Selection([
+        ('waiting_transfer', 'Waiting Transfer'),
+        ('delivery_success', 'Delivery Success'),
+        ('removed', 'Removed'),
+        ('cancel', 'Cancelado')
+    ], default='waiting_transfer', string='State')
 	employee_id = fields.Many2one('hr.employee',string="Encargado", related="partner_id.zona2.user_id")
 	partner_shipping_id = fields.Many2one('res.partner',string='Direccion de entrega')
+	shop_ids = fields.Many2many('pos.shop', 'pos_quotation_pos_shop_rel', 'quotation_id', 'shop_id','Shop', required=False)
+	zona = fields.Many2one('res.zona', string="Zona", related="partner_id.zona", store=True)
 
 
 

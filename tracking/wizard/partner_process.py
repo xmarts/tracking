@@ -11,6 +11,24 @@ class PartnerProcess(models.TransientModel):
     _name = "res.partner.process"
     _description = "Procesar"
 
+    type = fields.Selection([
+        ('ENTREGA','Entrega'),
+        ('VENTA','Venta')
+        ], string='Type', copy=False, default='VENTA', required=True,)
+
+    inicio = fields.Datetime(
+        string="Fecha Inicio"
+    )
+    fecha_fin = fields.Datetime(
+        string="Fecha Fin"
+    )
+    entry_date = fields.Datetime(
+        string="Fecha de Entrega"
+    )
+    zona =  fields.Many2one(
+        'res.zona', string="Zona"
+    )
+
     @api.model
     def _count(self):
         return len(self._context.get('active_ids', []))
@@ -22,6 +40,7 @@ class PartnerProcess(models.TransientModel):
         zona = ''
         for rec in partner:
             zona = rec.zona.id
+            self.zona = rec.zona.id
         res_p =self.env['res.partner'].search([('zona', '=', zona)])
         for record in res_p:
             empleado = self.env['hr.employee'].search([('address_home_id', '=', record.id)])
@@ -42,10 +61,31 @@ class PartnerProcess(models.TransientModel):
                 'name': 'New',
                 'partner_id': p.id,
                 'partner_shipping_id':shipping_id,
+                'type': self.type,
                 'manage_id':p.zona.user_id.id,
                 'zone_id': p.zona.id
             }
             route.create(vals)
+    @api.multi
+    def proccess_and_updated(self):
+        if self.inicio and self.fecha_fin:
+            self.process()
+            quo = self.env['pos.quotation'].search([])
+            for quotations in quo:
+                partner = self.env['res.partner'].browse(self._context.get('active_ids', []))
+                zona = ''
+                for rec in partner:
+                    zona = rec.zona.id
+                print(zona, 'qaaaaaaaaaaaaaaaaaaaa', self.inicio, self.fecha_fin, 'Fechas')
+                if quotations.state == 'waiting_transfer' and zona == quotations.zona.id and quotations.create_date >= self.inicio and quotations.create_date <= self.fecha_fin:
+                    print(quotations.name,'AAAAAAAAAAAAAAAAAAAAAAAAAA', quotations.create_date)
+                    if self.entry_date:
+                        quotations.delivery_date = self.entry_date
+                    else:
+                        raise UserError(_('Error. el Campo Fecha de Entrega debe llenarse para actualizar la informacion'))
+        else:
+            raise UserError(_('Error. Los campos Fecha inicio y fecha fin deben llenarse'))
+
 
     @api.multi
     def process2(self):

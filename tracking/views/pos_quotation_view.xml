@@ -9,6 +9,7 @@
                     <field name="is_lx_delivery"/>
                     <field name="delivery_date"/>
                     <field name="employee_id"/>
+                    <field name="zona"/>
                 </xpath>
                 <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="partner_shipping_id"/>
@@ -17,6 +18,24 @@
                 <xpath expr="//field[@name='line_ids']/tree" position="inside">
                     <field name="is_product_promo"/>
                 </xpath>
+            </field>
+        </record>
+
+        <record id="pos_quotation_search" model="ir.ui.view">
+            <field name="name">pos.quotation.tree</field>
+            <field name="model">pos.quotation</field>
+            <field name="arch" type="xml">
+                <search string="Busqueda">
+                    <field name="name"/>
+                    <field name="uid"/>
+                    <field name="session_id"/>
+                    <field name="shop_ids"/>
+                    <field name="user_id"/>
+                    <field name="create_date"/>
+                    <field name="partner_id"/>
+                    <field name="state"/>
+                    <filter name="zona" string="Ruta" icon="terp-partner" context="{'group_by':'zona'}"/>
+                </search>
             </field>
         </record>
 
