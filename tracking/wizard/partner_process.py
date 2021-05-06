@@ -71,8 +71,8 @@ class PartnerProcess(models.TransientModel):
         if self.inicio and self.fecha_fin:
             self.process()
             quo = self.env['pos.quotation'].search([])
+            partner = self.env['res.partner'].browse(self._context.get('active_ids', []))
             for quotations in quo:
-                partner = self.env['res.partner'].browse(self._context.get('active_ids', []))
                 zona = ''
                 for rec in partner:
                     zona = rec.zona.id
@@ -83,6 +83,17 @@ class PartnerProcess(models.TransientModel):
                         quotations.delivery_date = self.entry_date
                     else:
                         raise UserError(_('Error. el Campo Fecha de Entrega debe llenarse para actualizar la informacion'))
+            route_order = self.env['route.order'].search([])
+            for route in route_order:
+                zona = ''
+                for rec in partner:
+                    zona = rec.zona.id
+                if route.state == '0' and zona == route.zone_id.id and route.create_date >= self.inicio and route.create_date <= self.fecha_fin:
+                    if self.entry_date:
+                        route.date_order = self.entry_date
+                    else:
+                        raise UserError(_('Error. el Campo Fecha de Entrega debe llenarse para actualizar la informacion'))
+
         else:
             raise UserError(_('Error. Los campos Fecha inicio y fecha fin deben llenarse'))
 
