@@ -76,7 +76,7 @@ class PartnerProcess(models.TransientModel):
             for quotations in quo:
                 zona = ''
                 for rec in partner:
-                    zona = rec.zona.id
+                    zona = rec.zona2.id
                 print(zona, 'qaaaaaaaaaaaaaaaaaaaa', self.inicio, self.fecha_fin, 'Fechas')
                 if quotations.state == 'waiting_transfer' and zona == quotations.zona.id and quotations.create_date >= self.inicio and quotations.create_date <= self.fecha_fin:
                     print(quotations.name,'AAAAAAAAAAAAAAAAAAAAAAAAAA', quotations.create_date)
@@ -88,12 +88,13 @@ class PartnerProcess(models.TransientModel):
             for route in route_order:
                 zona = ''
                 for rec in partner:
-                    zona = rec.zona.id
-                if route.state == '0' and zona == route.zone_id.id and route.create_date >= self.inicio and route.create_date <= self.fecha_fin and route.validate_filters == True:
-                    if self.entry_date:
-                        route.date_order = self.entry_date
-                    else:
-                        raise UserError(_('Error. el Campo Fecha de Entrega debe llenarse para actualizar la informacion'))
+                    zona = rec.zona2.id
+                if route.zona_repartos:
+                    if route.state == '0' and zona == route.zona_repartos.id and route.create_date >= self.inicio and route.create_date <= self.fecha_fin and route.validate_filters == True:
+                        if self.entry_date:
+                            route.date_order = self.entry_date
+                        else:
+                            raise UserError(_('Error. el Campo Fecha de Entrega debe llenarse para actualizar la informacion'))
         else:
             raise UserError(_('Error. Los campos Fecha inicio y fecha fin deben llenarse'))
 
