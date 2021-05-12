@@ -63,7 +63,8 @@ class PartnerProcess(models.TransientModel):
                 'partner_shipping_id':shipping_id,
                 'type': self.type,
                 'manage_id':p.zona.user_id.id,
-                'zone_id': p.zona.id
+                'zone_id': p.zona.id,
+                'validate_filters': False
             }
             route.create(vals)
     @api.multi
@@ -88,12 +89,11 @@ class PartnerProcess(models.TransientModel):
                 zona = ''
                 for rec in partner:
                     zona = rec.zona.id
-                if route.state == '0' and zona == route.zone_id.id and route.create_date >= self.inicio and route.create_date <= self.fecha_fin:
+                if route.state == '0' and zona == route.zone_id.id and route.create_date >= self.inicio and route.create_date <= self.fecha_fin and route.validate_filters == True:
                     if self.entry_date:
                         route.date_order = self.entry_date
                     else:
                         raise UserError(_('Error. el Campo Fecha de Entrega debe llenarse para actualizar la informacion'))
-
         else:
             raise UserError(_('Error. Los campos Fecha inicio y fecha fin deben llenarse'))
 
