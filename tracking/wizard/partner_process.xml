@@ -12,19 +12,19 @@
                         <field name="count" invisible="[('count','=',1)]" readonly="True"/>
                         <group>
                             <field name="type"/>
-                            <field name="zona"/>
-                            <field name="entry_date"/>
+<!--                             <field name="zona"/>
+                            <field name="entry_date"/> -->
                         </group>
                         <group>
-                            <field name="inicio"/>
-                            <field name="fecha_fin"/>
+<!--                             <field name="inicio"/>
+                            <field name="fecha_fin"/> -->
                         </group>
                     </group>
                     <footer>
                         <button name="process" string="Procesar" type="object"
                             class="btn-primary"/>
-                        <button name="proccess_and_updated" string="Procesar/Actualizar" type="object"
-                        class="btn-primary"/>
+                        <!-- <button name="proccess_and_updated" string="Procesar/Actualizar" type="object"
+                        class="btn-primary"/> -->
                         <button name="process2" string="Procesar Lacteos" type="object"
                             class="btn-primary"/>
                         <button string="Cancel" class="btn-default" special="cancel"/>
