@@ -94,8 +94,10 @@ class PartnerProcess(models.TransientModel):
                             route.date_order = self.entry_date
                         else:
                             raise UserError(_('Error. el Campo Fecha de Entrega debe llenarse para actualizar la informacion'))
+            self.process()
         else:
             raise UserError(_('Error. Los campos Fecha inicio y fecha fin deben llenarse'))
+
 
 
     @api.multi
