@@ -194,19 +194,16 @@ class PosOrder(models.Model):
             cliente = self.partner_id.parent_id.id
         else:
             cliente = self.partner_id.id
-        if self.partner_id.no_invoice == True:
-            Invoice.unlink()
-        else:
-            Invoice.update({
-                'partner_id': cliente,
-                'addenda_folio': self.folio_venta,
-                'zona': self.direccion_cliente_id.zona,
-                'tipo_cliente': self.direccion_cliente_id.partner_type_lx,
-                'number_store': self.direccion_cliente_id.shipping_number_store,
-                'journal_id': order.session_id.config_id.journal_id.id,
-                'fecha_entrega' : self.date_order,
-                'date_invoice': datetime.date.today()
-            })
+        Invoice.update({
+            'partner_id': cliente,
+            'addenda_folio': self.folio_venta,
+            'zona': self.direccion_cliente_id.zona,
+            'tipo_cliente': self.direccion_cliente_id.partner_type_lx,
+            'number_store': self.direccion_cliente_id.shipping_number_store,
+            'journal_id': order.session_id.config_id.journal_id.id,
+            'fecha_entrega' : self.date_order,
+            'date_invoice': datetime.date.today()
+        })
         return Invoice.id
 
     @api.multi

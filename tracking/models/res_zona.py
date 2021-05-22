@@ -18,4 +18,4 @@ class ResZona(models.Model):
         ('VE', 'Preventa'),
         ('RE', 'Reparto')
     ], string='Type', copy=False, default='VERE')
-
+    journal_id = fields.Many2one('account.journal', string="Diario")

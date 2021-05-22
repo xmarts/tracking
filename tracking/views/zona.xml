@@ -27,6 +27,7 @@
                             <field name="user_id" />
                             <field name="pos_id" />
                             <field name="type" />
+                            <field name="journal_id"/>
                         </group>
                     </sheet>
                 </form>
