@@ -5,6 +5,7 @@ import time
 from odoo import api, fields, models, _
 from odoo.addons import decimal_precision as dp
 from odoo.exceptions import UserError
+import datetime
 
 
 class PartnerProcess(models.TransientModel):
@@ -41,6 +42,13 @@ class PartnerProcess(models.TransientModel):
         for rec in partner:
             zona = rec.zona.id
             self.zona = rec.zona.id
+        self.env['route.order'].search([
+            ('zone_id', '=', zona),
+            ('create_date','<=', datetime.date.today()),
+            ('app_route','=', False),
+            ('state','=','0')
+        ]).unlink()
+
         res_p =self.env['res.partner'].search([('zona', '=', zona)])
         for record in res_p:
             empleado = self.env['hr.employee'].search([('address_home_id', '=', record.id)])
@@ -66,6 +74,7 @@ class PartnerProcess(models.TransientModel):
                 'zone_id': p.zona.id,
                 'validate_filters': False
             }
+            print(datetime.datetime.today())
             route.create(vals)
     @api.multi
     def proccess_and_updated(self):
