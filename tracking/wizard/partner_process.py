@@ -12,8 +12,8 @@ class PartnerProcess(models.TransientModel):
     _description = "Procesar"
 
     type = fields.Selection([
-        ('ENTREGA','Entrega'),
-        ('VENTA','Venta')
+        ('ENTREGA','Venta'),
+        ('VENTA','Pre-venta')
         ], string='Type', copy=False, default='VENTA', required=True,)
 
     inicio = fields.Datetime(
