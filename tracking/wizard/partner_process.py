@@ -42,13 +42,14 @@ class PartnerProcess(models.TransientModel):
         for rec in partner:
             zona = rec.zona.id
             self.zona = rec.zona.id
-        self.env['route.order'].search([
+        ro = self.env['route.order'].search([
             ('zone_id', '=', zona),
             ('create_date','<=', datetime.date.today()),
             ('app_route','=', False),
             ('state','=','0')
-        ]).unlink()
-
+        ])
+        for delete in ro:
+            delete.unlink()
         res_p =self.env['res.partner'].search([('zona', '=', zona)])
         for record in res_p:
             empleado = self.env['hr.employee'].search([('address_home_id', '=', record.id)])
