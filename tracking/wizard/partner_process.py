@@ -85,8 +85,7 @@ class PartnerProcess(models.TransientModel):
                 zona = self.zona.id
                 print(zona, 'qaaaaaaaaaaaaaaaaaaaa', self.inicio, self.fecha_fin, 'Fechas')
                 if quotations.state == 'waiting_transfer' and zona == quotations.zona.id and quotations.date_creation:
-                    print(quotations.name,'AAAAAAAAAAAAAAAAAAAAAAAAAA', quotations.date_creation)
-                    if self.inicio < quotations.date_creation < self.fecha_fin:
+                    if self.inicio <= quotations.date_creation <= self.fecha_fin:
                         print('Entre')
                         if self.entry_date:
                             quotations.update({'delivery_date': self.entry_date}) 
@@ -97,7 +96,7 @@ class PartnerProcess(models.TransientModel):
                 zona = self.zona.id
                 if route.zona_repartos:
                     if route.state == '0' and zona == route.zona_repartos.id and route.validate_filters == True and route.date_creation:
-                        if self.inicio < route.date_creation <  self.fecha_fin:
+                        if self.inicio <= route.date_creation <=  self.fecha_fin:
                             if self.entry_date:
                                 route.update({'date_order':self.entry_date})
                             else:
