@@ -17,13 +17,13 @@ class PartnerProcess(models.TransientModel):
         ('VENTA','Pre-venta')
         ], string='Type', copy=False, default='VENTA', required=True,)
 
-    inicio = fields.Datetime(
+    inicio = fields.Date(
         string="Fecha Inicio"
     )
-    fecha_fin = fields.Datetime(
+    fecha_fin = fields.Date(
         string="Fecha Fin"
     )
-    entry_date = fields.Datetime(
+    entry_date = fields.Date(
         string="Fecha de Entrega"
     )
     zona =  fields.Many2one(
@@ -84,21 +84,24 @@ class PartnerProcess(models.TransientModel):
             for quotations in quo:
                 zona = self.zona.id
                 print(zona, 'qaaaaaaaaaaaaaaaaaaaa', self.inicio, self.fecha_fin, 'Fechas')
-                if quotations.state == 'waiting_transfer' and zona == quotations.zona.id and quotations.create_date >= self.inicio and quotations.create_date <= self.fecha_fin:
-                    print(quotations.name,'AAAAAAAAAAAAAAAAAAAAAAAAAA', quotations.create_date)
-                    if self.entry_date:
-                        quotations.delivery_date = self.entry_date
-                    else:
-                        raise UserError(_('Error. el Campo Fecha de Entrega debe llenarse para actualizar la informacion'))
+                if quotations.state == 'waiting_transfer' and zona == quotations.zona.id and quotations.date_creation:
+                    print(quotations.name,'AAAAAAAAAAAAAAAAAAAAAAAAAA', quotations.date_creation)
+                    if self.inicio < quotations.date_creation < self.fecha_fin:
+                        print('Entre')
+                        if self.entry_date:
+                            quotations.update({'delivery_date': self.entry_date}) 
+                        else:
+                            raise UserError(_('Error. el Campo Fecha de Entrega debe llenarse para actualizar la informacion'))
             route_order = self.env['route.order'].search([])
             for route in route_order:
                 zona = self.zona.id
                 if route.zona_repartos:
-                    if route.state == '0' and zona == route.zona_repartos.id and route.create_date >= self.inicio and route.create_date <= self.fecha_fin and route.validate_filters == True:
-                        if self.entry_date:
-                            route.date_order = self.entry_date
-                        else:
-                            raise UserError(_('Error. el Campo Fecha de Entrega debe llenarse para actualizar la informacion'))
+                    if route.state == '0' and zona == route.zona_repartos.id and route.validate_filters == True and route.date_creation:
+                        if self.inicio < route.date_creation <  self.fecha_fin:
+                            if self.entry_date:
+                                route.update({'date_order':self.entry_date})
+                            else:
+                                raise UserError(_('Error. el Campo Fecha de Entrega debe llenarse para actualizar la informacion'))
         else:
             raise UserError(_('Error. Los campos Fecha inicio y fecha fin deben llenarse'))
 

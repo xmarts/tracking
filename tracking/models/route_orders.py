@@ -2,6 +2,7 @@
 
 from openerp import models, fields, api, _, tools
 import logging
+from datetime import datetime
 _logger = logging.getLogger(__name__)
 
 class RouteOrder(models.Model):
@@ -15,7 +16,10 @@ class RouteOrder(models.Model):
         ('N', 'Normal'),
         ('B', 'Baja')
         ], string='Prioridad',default='N')
-    date_order = fields.Datetime(string='Agendada', default=fields.Datetime.now)
+    date_order = fields.Date(string='Agendada', default=fields.Date.today())
+    date_creation = fields.Date(
+        string='Fecha de creacion', default=fields.Date.today()
+    )
     manage_id = fields.Many2one('hr.employee', string="Encargado", required=True)
     comentary = fields.Text('Comentarios')
     type = fields.Selection([

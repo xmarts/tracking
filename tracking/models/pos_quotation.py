@@ -11,7 +11,7 @@ class PosQuotationLX(models.Model):
 	    string='Entrega de LXTRACK',
 	    default=False
 	)
-	delivery_date = fields.Datetime(
+	delivery_date = fields.Date(
 	    string='Fecha Entrega',
 	)
 	sync_lx = fields.Boolean(
