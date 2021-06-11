@@ -48,6 +48,6 @@ class PosSession(models.Model):
                             total=order.amount_total,
                             paid=order.amount_paid,
                         ))
-                order.action_pos_order_done()
+                # order.action_pos_order_done()
             orders_to_reconcile = session.order_ids._filtered_for_reconciliation()
             orders_to_reconcile.sudo()._reconcile_payments()
