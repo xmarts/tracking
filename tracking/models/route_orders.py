@@ -26,7 +26,7 @@ class RouteOrder(models.Model):
         ('ENTREGA','Entrega'),
 	('VENTA','Venta')
         ], string='Type', copy=False, default='VENTA')
-    pos_quotations = fields.Many2one('pos.quotations', string="Cotizacion")
+    pos_quotations = fields.Many2one('pos.quotation', string="Cotizacion")
     state = fields.Selection([
         ('0', 'Sin sincronizar'),
         ('1', 'Sin descargar'),
