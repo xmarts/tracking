@@ -78,6 +78,7 @@
                         <field name="cancel_mot" />
                         <field name="sync_error" />
                         <field name="app_route" invisible="1"/>
+                        <field name="pos_quotations"/>
                     </group>
                     <group>
                         <field name="date_order" />
