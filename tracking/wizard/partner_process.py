@@ -39,8 +39,10 @@ class PartnerProcess(models.TransientModel):
     def process(self):
         partner = self.env['res.partner'].browse(self._context.get('active_ids', []))
         zona = ''
+        zona2 = ''
         for rec in partner:
             zona = rec.zona.id
+            zona2 = rec.zona2.id
             self.zona = rec.zona.id
         ro = self.env['route.order'].search([
             ('zone_id', '=', zona),
@@ -50,12 +52,11 @@ class PartnerProcess(models.TransientModel):
         ])
         for delete in ro:
             delete.unlink()
-        res_p =self.env['res.partner'].search([('zona', '=', zona)])
+        res_p =self.env['res.partner'].search(['|',('zona', '=', zona),('zona2','=',zona2)])
         for record in res_p:
             empleado = self.env['hr.employee'].search([('address_home_id', '=', record.id)])
             for emp in empleado:
-                if emp.ruta_open == False:
-                    emp.ruta_open = True
+                emp.ruta_open = True
         total = len(partner)
         route = self.env['route.order']
         for p in partner:
