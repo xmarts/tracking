@@ -13,6 +13,7 @@ class HrEmployee(models.Model):
         ('RE', 'Reparto')
     ], string='Type', copy=False, default='VERE')
     ruta_open = fields.Boolean(string="Ruta abierta", default=False)
+    zona = fields.Many2one('res.zona', string="Zona")
 
     # @api.model
     # def create(self, vals):

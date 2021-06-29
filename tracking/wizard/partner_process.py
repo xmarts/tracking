@@ -50,12 +50,16 @@ class PartnerProcess(models.TransientModel):
             ('app_route','=', False),
             ('state','=','0')
         ])
+        print(zona, zona2, 'aaaaaaaaaaaaaaa')
         for delete in ro:
             delete.unlink()
-        res_p =self.env['res.partner'].search(['|',('zona', '=', zona),('zona2','=',zona2)])
-        for record in res_p:
-            empleado = self.env['hr.employee'].search([('address_home_id', '=', record.id)])
-            for emp in empleado:
+        # res_p =self.env['res.partner'].search(['|',('zona', '=', zona),('zona2','=',zona2)])
+        # for record in res_p:
+        #     # print(record.name)
+        empleado = self.env['hr.employee'].search(['|', ('zona', '=', zona), ('zona','=', zona2)])
+        for emp in empleado:
+            if emp.zona:
+                print(emp.name, emp.password)
                 emp.ruta_open = True
         total = len(partner)
         route = self.env['route.order']
