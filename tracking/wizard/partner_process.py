@@ -84,6 +84,18 @@ class PartnerProcess(models.TransientModel):
             route.create(vals)
     @api.multi
     def proccess_and_updated(self):
+        partner = self.env['res.partner'].browse(self._context.get('active_ids', []))
+        zona = ''
+        zona2 = ''
+        for rec in partner:
+            zona = rec.zona.id
+            zona2 = rec.zona2.id
+        empleado = self.env['hr.employee'].search(['|', ('zona', '=', self.zona), ('zona','=', zona2)])
+        for emp in empleado:
+            if emp.zona:
+                print(emp.name, emp.password)
+                emp.ruta_open = True
+
         if self.inicio and self.fecha_fin:
             quo = self.env['pos.quotation'].search([])
             for quotations in quo:
