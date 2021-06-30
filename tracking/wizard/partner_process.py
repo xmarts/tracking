@@ -90,7 +90,7 @@ class PartnerProcess(models.TransientModel):
         for rec in partner:
             zona = rec.zona.id
             zona2 = rec.zona2.id
-        empleado = self.env['hr.employee'].search(['|', ('zona', '=', self.zona), ('zona','=', zona2)])
+        empleado = self.env['hr.employee'].search(['|', ('zona', '=', self.zona.id), ('zona','=', zona2)])
         for emp in empleado:
             if emp.zona:
                 print(emp.name, emp.password)
