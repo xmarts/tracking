@@ -18,4 +18,15 @@ class ResZona(models.Model):
         ('VE', 'Preventa'),
         ('RE', 'Reparto')
     ], string='Type', copy=False, default='VERE')
-    journal_id = fields.Many2one('account.journal', string="Diario")
+    journal_id = fields.Many2one('account.journal', string="Diario") 
+    partners_ids = fields.One2many('res.zona.line', 'zona_id')
+
+
+class ResZonaLine(models.Model):
+    _name = "res.zona.line"
+    _order = 'zona_id, sequence, id'
+
+
+    partner_id = fields.Many2one('res.partner', string="Clientes")
+    sequence = fields.Integer(string='Sequence', default=1)
+    zona_id = fields.Many2one('res.zona', string="Zona")

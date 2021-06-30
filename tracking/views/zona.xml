@@ -22,14 +22,29 @@
                 <form string="Zonas Preventa">
                     <sheet>
                         <group >
-                            <field name="codigo" />
-                            <field name="name" />
-                            <field name="user_id" />
-                            <field name="pos_id" />
-                            <field name="type" />
-                            <field name="journal_id"/>
+                            <group>
+                                <field name="codigo" />
+                                <field name="name" />
+                                <field name="user_id" />
+                            </group>
+                            <group>
+                                <field name="pos_id" />
+                                <field name="type" />
+                                <field name="journal_id"/>
+                            </group>
                         </group>
+                    <notebook>
+                        <page id="ids_partners_zona" name="Partners" string="Orden de ruta" widget="section_and_note_one2many"  mode="tree,kanban">
+                            <field name="partners_ids">
+                                <tree editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="partner_id"/>                                    
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
                     </sheet>
+                    
                 </form>
             </field>
         </record>

@@ -71,6 +71,13 @@ class PartnerProcess(models.TransientModel):
             else:
                 shipping_id = p.id
 
+            sec = 0
+            zona_id = self.env['res.zona'].search([('id','=', zona)])
+            print(zona_id.name)
+            for zona_ids in zona_id:
+                for line in zona_ids.partners_ids:
+                    if line.partner_id.id == p.id:
+                        sec = line.sequence
             vals = {
                 'name': 'New',
                 'partner_id': p.id,
@@ -78,9 +85,10 @@ class PartnerProcess(models.TransientModel):
                 'type': self.type,
                 'manage_id':p.zona.user_id.id,
                 'zone_id': p.zona.id,
-                'validate_filters': False
+                'validate_filters': False,
+                'sequence_route': sec
             }
-            print(datetime.datetime.today())
+            print('aaaaaaaaaa', vals)
             route.create(vals)
     @api.multi
     def proccess_and_updated(self):

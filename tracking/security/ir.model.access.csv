@@ -6,3 +6,4 @@ access_quotation_pos_report,quotation.pos.report,model_quotation_pos_report,,1,1
 access_codigo_comprador,codigo.comprador,model_codigo_comprador,,1,1,1,1
 access_pos_quotation_report_line,pos.quotation.report.line,model_pos_quotation_report_line,,1,1,1,1
 access_pos_quotation_report_product,pos.quotation.report.product,model_pos_quotation_report_product,,1,1,1,1
+access_res_zona_line,res.zona.line,model_res_zona_line,,1,1,1,1

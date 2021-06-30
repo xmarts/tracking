@@ -79,6 +79,7 @@
                         <field name="sync_error" />
                         <field name="app_route" invisible="1"/>
                         <field name="pos_quotations"/>
+                        <field name="sequence_route"/>
                     </group>
                     <group>
                         <field name="date_order" />

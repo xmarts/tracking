@@ -47,6 +47,7 @@ class RouteOrder(models.Model):
     app_route = fields.Boolean(
         string="APP Route", default=False
     )
+    sequence_route = fields.Integer(string="Secuencia de Ruta") 
 
     @api.model
     def create(self, vals):
