@@ -117,5 +117,38 @@
             </field>
         </record>
 
+        <!-- PARTNER sequence -->
+        <record id="view_partner_sequence_tree" model="ir.ui.view">
+            <field name="name">res.partner</field>
+            <field name="model">res.partner</field>
+            <field name="arch" type="xml">
+                <tree string="Codigo Comprador">
+                    <field name="sequence"/>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+
+
+
+        <record id='res_partner_sequences_xma' model='ir.actions.act_window'>
+            <field name='name'>Contactos</field>
+            <field name='type'>ir.actions.act_window</field>
+            <field name='res_model'>res.partner</field>
+            <field name="views">[('view_partner_sequence_tree', 'tree'),('base.view_partner_form', 'form')]</field>
+            <field name='view_mode'>tree,form</field>
+            <field name='view_id' ref='view_partner_sequence_tree'/>
+        </record>
+
+     <menuitem 
+        id="view_partner_sequence_xma_jaro" 
+        name="Contactos"
+        parent="contacts.res_partner_menu_config" 
+        action="res_partner_sequences_xma" 
+        sequence="500"/>
+
+
+
     </data>
 </openerp>
