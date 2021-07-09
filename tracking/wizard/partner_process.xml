@@ -43,5 +43,29 @@
             target="new"
             id="action_res_partner_process"/>
 
+      <!-- Wizard sequence -->
 
+        <record model="ir.ui.view" id="sequence_wizard_wizard">
+            <field name="name">quotations.report.wizard</field>
+            <field name="model">sequence.assign.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <group>
+                            <field name="dias"/>
+                        </group>
+                        <group>
+                            <field name="dias"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="assign" string="Asignar" type="object"
+                        class="btn-primary"/>
+                        <button name="process2" string="Procesar Lacteos" type="object"
+                            class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
 </odoo>

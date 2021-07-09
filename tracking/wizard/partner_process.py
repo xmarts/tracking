@@ -30,6 +30,17 @@ class PartnerProcess(models.TransientModel):
         'res.zona', string="Zona"
     )
 
+    dias = fields.Selection(
+        [('lunes','Lunes'),
+        ('martes','Martes'),
+        ('miercoles','Miercoles'),
+        ('jueves','Jueves'),
+        ('viernes','Viernes'),
+        ('sabado','Sabado'),
+        ('domingo','Domingo')
+        ], default='lunes', string="Dias"
+    )
+
     @api.model
     def _count(self):
         return len(self._context.get('active_ids', []))
@@ -70,14 +81,22 @@ class PartnerProcess(models.TransientModel):
                 shipping_id = shipping.id
             else:
                 shipping_id = p.id
-
             sec = 0
-            zona_id = self.env['res.zona'].search([('id','=', zona)])
-            print(zona_id.name)
-            for zona_ids in zona_id:
-                for line in zona_ids.partners_ids:
-                    if line.partner_id.id == p.id:
-                        sec = line.sequence
+            if self.dias == 'lunes':
+                sec = p.dia_lunes_seq
+            if self.dias == 'martes':
+                sec = p.dia_martes_seq
+            if self.dias == 'miercoles':
+                sec = p.dia_miercoles_seq
+            if self.dias == 'jueves':
+                sec = p.dia_jueves_seq
+            if self.dias == 'viernes':
+                sec = p.dia_viernes_seq
+            if self.dias == 'sabado':
+                sec = p.dia_sabado_seq
+            if self.dias == 'domingo':
+                sec = p.dia_domingo_seq
+
             vals = {
                 'name': 'New',
                 'partner_id': p.id,

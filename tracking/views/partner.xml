@@ -123,8 +123,15 @@
             <field name="model">res.partner</field>
             <field name="arch" type="xml">
                 <tree string="Codigo Comprador">
-                    <field name="sequence"/>
+                    <field name="sequence" widget="handle"/>
                     <field name="name"/>
+                    <field name="dia_lunes_seq"/>
+                    <field name="dia_martes_seq"/>
+                    <field name="dia_miercoles_seq"/>
+                    <field name="dia_jueves_seq"/>
+                    <field name="dia_viernes_seq"/>
+                    <field name="dia_sabado_seq"/>
+                    <field name="dia_domingo_seq"/>
                 </tree>
             </field>
         </record>
@@ -147,6 +154,16 @@
         parent="contacts.res_partner_menu_config" 
         action="res_partner_sequences_xma" 
         sequence="500"/>
+
+
+        <record model="ir.actions.server" id="action_wizard_quotation">
+           <field name="name">Asignar Secuencia</field>
+           <field name="model_id" ref="tracking.model_res_partner"/>
+           <field name="state">code</field>
+           <field name="code">
+                action = records.assgin_seqquence_day()
+           </field>
+        </record>
 
 
 

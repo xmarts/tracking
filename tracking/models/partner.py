@@ -5,8 +5,15 @@ from openerp.exceptions import UserError, RedirectWarning, ValidationError
 import shutil
 import logging
 _logger = logging.getLogger(__name__)
+
+
+id_line = []
+
 class ResPartner(models.Model):
     _inherit="res.partner"
+
+
+    sequence = fields.Integer(string="Secuencia")
     partner_type_lx = fields.Selection([('rutas','Ruta'),('maquila','Maquila'),('autoservicios','Autoservicios'),('mayorista','Mayorista'),('noident','No Identificado')], string="Tipo Cliente", default='rutas')
     phone = fields.Char(string="Telefono")
     name_commercial = fields.Char(string="Nombre Comercial")
@@ -15,6 +22,15 @@ class ResPartner(models.Model):
     zona = fields.Many2one('res.zona', string="Zona Preventa/Venta")
     zonalac = fields.Many2one('res.zona', string="Zona Preventa/Venta Lacteos")
     zona2 = fields.Many2one('res.zona', string="Zona Reparto")
+    dia_lunes_seq =fields.Integer(string="Lunes")    
+    dia_martes_seq =fields.Integer(string="Martes")
+    dia_miercoles_seq =fields.Integer(string="Miercoles")
+    dia_jueves_seq =fields.Integer(string="Jueves")
+    dia_viernes_seq =fields.Integer(string="Viernes")
+    dia_sabado_seq =fields.Integer(string="Sabado")
+    dia_domingo_seq =fields.Integer(string="Domingo")
+
+
     day1 = fields.Selection(string="Día de Entrega 1 ",
                             selection=[('monday', 'Lunes'), ('tuesday', 'Martes'), ('wednesday', 'Miércoles'),
                                        ('thursday', 'Jueves'), ('friday', 'Viernes'), ('saturday', 'Sábado'),
@@ -82,6 +98,64 @@ class ResPartner(models.Model):
             if len(child_id[0]) == 0:
                 raise UserError('Es necesario dar de alta una  Dirección de Entrega')
         return super(ResPartner, self).create(vals)
+
+
+    @api.multi
+    def  assgin_seqquence_day(self):
+        self.clean_id()
+        partner = self.env['res.partner'].browse(self._context.get('active_ids', []))
+        for rec in partner:
+            if rec.id not in id_line:
+                  id_line.append(rec.id)
+
+        action = {
+            "type": "ir.actions.act_window",
+            "view_mode": "form",
+            "res_model": "sequence.assign.wizard",
+            "target": "new"
+        }
+        return action
+
+    @api.multi
+    def clean_id(self):
+        del id_line[:]
+
+
+
+class WizardAssignSequence(models.TransientModel):
+    _name = 'sequence.assign.wizard'
+
+    dias = fields.Selection(
+        [('lunes','Lunes'),
+        ('martes','Martes'),
+        ('miercoles','Miercoles'),
+        ('jueves','Jueves'),
+        ('viernes','Viernes'),
+        ('sabado','Sabado'),
+        ('domingo','Domingo')
+        ], default='lunes', string="Dias"
+    )
+
+    @api.multi
+    def assign(self):
+        active_ids = id_line
+        clientes = self.env['res.partner'].search([('id', 'in', active_ids)])
+        for rec in clientes:
+            if self.dias == 'lunes':
+                rec.dia_lunes_seq = rec.sequence
+            if self.dias == 'martes':
+                rec.dia_martes_seq = rec.sequence
+            if self.dias == 'miercoles':
+                rec.dia_miercoles_seq = rec.sequence
+            if self.dias == 'jueves':
+                rec.dia_jueves_seq = rec.sequence
+            if self.dias == 'viernes':
+                rec.dia_viernes_seq = rec.sequence
+            if self.dias == 'sabado':
+                rec.dia_sabado_seq = rec.sequence
+            if self.dias == 'domingo':
+                rec.dia_domingo_seq = rec.sequence
+
 
 class CodigoComprador(models.Model):
   """Modelo para codigo de comprador"""
