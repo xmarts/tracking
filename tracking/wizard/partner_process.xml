@@ -10,6 +10,7 @@
                     </p>
                     <group>
                         <field name="count" invisible="[('count','=',1)]" readonly="True"/>
+                        <field name="dias"/>
                         <group>
                             <field name="type"/>
                             <field name="zona"/>
@@ -55,14 +56,11 @@
                             <field name="dias"/>
                         </group>
                         <group>
-                            <field name="dias"/>
                         </group>
                     </group>
                     <footer>
                         <button name="assign" string="Asignar" type="object"
                         class="btn-primary"/>
-                        <button name="process2" string="Procesar Lacteos" type="object"
-                            class="btn-primary"/>
                         <button string="Cancel" class="btn-default" special="cancel"/>
                     </footer>
                 </form>

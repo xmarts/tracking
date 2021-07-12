@@ -150,7 +150,7 @@
 
      <menuitem 
         id="view_partner_sequence_xma_jaro" 
-        name="Contactos"
+        name="Configuracion de Secuencias"
         parent="contacts.res_partner_menu_config" 
         action="res_partner_sequences_xma" 
         sequence="500"/>
