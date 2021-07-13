@@ -10,7 +10,7 @@
                     </p>
                     <group>
                         <field name="count" invisible="[('count','=',1)]" readonly="True"/>
-                        <field name="dias"/>
+                        <!-- <field name="dias"/> -->
                         <group>
                             <field name="type"/>
                             <field name="zona"/>
