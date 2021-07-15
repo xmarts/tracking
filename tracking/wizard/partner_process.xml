@@ -47,23 +47,87 @@
       <!-- Wizard sequence -->
 
         <record model="ir.ui.view" id="sequence_wizard_wizard">
-            <field name="name">quotations.report.wizard</field>
+            <field name="name">wizard.sequence</field>
             <field name="model">sequence.assign.wizard</field>
             <field name="arch" type="xml">
                 <form>
-                    <group>
-                        <group>
-                            <field name="dias"/>
-                        </group>
-                        <group>
-                        </group>
-                    </group>
-                    <footer>
-                        <button name="assign" string="Asignar" type="object"
-                        class="btn-primary"/>
-                        <button string="Cancel" class="btn-default" special="cancel"/>
-                    </footer>
+                    <sheet>
+                        <field name="dias"/>
+                        <field name="sequence_lines">
+                            <tree editable="bottom">
+                                <field name="sequence"  widget="handle"/>
+                                <field name="id_partner"/>
+                            </tree>                           
+                        </field> 
+<!--                         <group>
+                            <group>
+                            </group>
+                            <group>
+                            </group>
+                        </group> -->
+                        <footer>
+                            <button name="assign" string="Asignar" type="object"
+                            class="btn-primary"/>
+                            <button string="Cancel" class="btn-default" special="cancel"/>
+                        </footer>
+                        <!-- <notebook>
+                            <page string="Secuencias" widget="section_and_note_one2many"  mode="tree,kanban">
+                                <field name="sequence_lines">
+                                    <tree editable="bottom">
+                                        <field name="sequence"  widget="handle"/>
+                                        <field name="id_partner"/>
+                                    </tree>                           
+                                </field>    
+                            </page>
+                        </notebook> -->
+                    </sheet>
                 </form>
             </field>
         </record>
+
+
+<!--             <act_window name="Asignar Secuenciaaaaaaaaaa"
+            res_model="sequence.assign.wizard"
+            src_model="res.partner"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form,tree"
+            view_type="form"
+            target="new"
+            id="action_sequence_assign_wizard"/> -->
+
+    <!-- SELECT DAY -->
+
+        <record model="ir.ui.view" id="sequence_wizard_wizard">
+            <field name="name">Dia</field>
+            <field name="model">select.day.routes</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="dias"/>
+                            </group>
+                            <group>
+                            </group>
+                        </group>
+                        <footer>
+                            <button name="select_day" string="Aceptar" type="object"
+                            class="btn-primary"/>
+                            <button string="Cancel" class="btn-default" special="cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Asignar Secuencia"
+            res_model="select.day.routes"
+            src_model="res.partner"
+            key2="client_action_multi"
+            multi="True"
+            view_mode="form"
+            view_type="form"
+            target="new"
+            id="action_select_day_routes"/>
 </odoo>
