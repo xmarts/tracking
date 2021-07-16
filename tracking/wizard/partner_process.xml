@@ -10,7 +10,7 @@
                     </p>
                     <group>
                         <field name="count" invisible="[('count','=',1)]" readonly="True"/>
-                        <field name="dias"/>
+                        <!-- <field name="dias"/> -->
                         <group>
                             <field name="type"/>
                             <field name="zona"/>
@@ -58,41 +58,16 @@
                                 <field name="id_partner"/>
                             </tree>                           
                         </field> 
-<!--                         <group>
-                            <group>
-                            </group>
-                            <group>
-                            </group>
-                        </group> -->
                         <footer>
                             <button name="assign" string="Asignar" type="object"
                             class="btn-primary"/>
                             <button string="Cancel" class="btn-default" special="cancel"/>
                         </footer>
-                        <!-- <notebook>
-                            <page string="Secuencias" widget="section_and_note_one2many"  mode="tree,kanban">
-                                <field name="sequence_lines">
-                                    <tree editable="bottom">
-                                        <field name="sequence"  widget="handle"/>
-                                        <field name="id_partner"/>
-                                    </tree>                           
-                                </field>    
-                            </page>
-                        </notebook> -->
                 </form>
             </field>
         </record>
 
 
-<!--             <act_window name="Asignar Secuenciaaaaaaaaaa"
-            res_model="sequence.assign.wizard"
-            src_model="res.partner"
-            key2="client_action_multi"
-            multi="True"
-            view_mode="form,tree"
-            view_type="form"
-            target="new"
-            id="action_sequence_assign_wizard"/> -->
 
     <!-- SELECT DAY -->
 

@@ -81,21 +81,21 @@ class PartnerProcess(models.TransientModel):
                 shipping_id = shipping.id
             else:
                 shipping_id = p.id
-            sec = 0
-            if self.dias == 'lunes':
-                sec = p.dia_lunes_seq
-            if self.dias == 'martes':
-                sec = p.dia_martes_seq
-            if self.dias == 'miercoles':
-                sec = p.dia_miercoles_seq
-            if self.dias == 'jueves':
-                sec = p.dia_jueves_seq
-            if self.dias == 'viernes':
-                sec = p.dia_viernes_seq
-            if self.dias == 'sabado':
-                sec = p.dia_sabado_seq
-            if self.dias == 'domingo':
-                sec = p.dia_domingo_seq
+            # sec = 0
+            # if self.dias == 'lunes':
+            #     sec = p.dia_lunes_seq
+            # if self.dias == 'martes':
+            #     sec = p.dia_martes_seq
+            # if self.dias == 'miercoles':
+            #     sec = p.dia_miercoles_seq
+            # if self.dias == 'jueves':
+            #     sec = p.dia_jueves_seq
+            # if self.dias == 'viernes':
+            #     sec = p.dia_viernes_seq
+            # if self.dias == 'sabado':
+            #     sec = p.dia_sabado_seq
+            # if self.dias == 'domingo':
+            #     sec = p.dia_domingo_seq
 
             vals = {
                 'name': 'New',
@@ -105,7 +105,7 @@ class PartnerProcess(models.TransientModel):
                 'manage_id':p.zona.user_id.id,
                 'zone_id': p.zona.id,
                 'validate_filters': False,
-                'sequence_route': sec
+                # 'sequence_route': sec
             }
             print('aaaaaaaaaa', vals)
             route.create(vals)
