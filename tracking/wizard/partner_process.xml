@@ -51,9 +51,8 @@
             <field name="model">sequence.assign.wizard</field>
             <field name="arch" type="xml">
                 <form>
-                    <sheet>
-                        <field name="dias"/>
-                        <field name="sequence_lines">
+                        <field name="dias" nolabel="1"/>
+                        <field name="sequence_lines" widget="section_and_note_one2many"  nolabel="1">
                             <tree editable="bottom">
                                 <field name="sequence"  widget="handle"/>
                                 <field name="id_partner"/>
@@ -80,7 +79,6 @@
                                 </field>    
                             </page>
                         </notebook> -->
-                    </sheet>
                 </form>
             </field>
         </record>
@@ -98,7 +96,7 @@
 
     <!-- SELECT DAY -->
 
-        <record model="ir.ui.view" id="sequence_wizard_wizard">
+        <record model="ir.ui.view" id="sequence_wizard_dias">
             <field name="name">Dia</field>
             <field name="model">select.day.routes</field>
             <field name="arch" type="xml">

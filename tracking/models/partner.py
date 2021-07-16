@@ -100,43 +100,6 @@ class ResPartner(models.Model):
                 raise UserError('Es necesario dar de alta una  Dirección de Entrega')
         return super(ResPartner, self).create(vals)
 
-
-    # @api.multi
-    # def  assgin_seqquence_day(self):
-    #     sequence_line = self.env['sequence.line.wizard']
-    #     sequence_line.search([]).unlink()
-    #     self.clean_id()
-    #     partner = self.env['res.partner'].browse(self._context.get('active_ids', []))
-    #     for rec in partner:
-    #         if rec.id not in id_line:
-    #               id_line.append(rec.id)
-    #     cli = self.env['res.partner'].search([('id','in', id_line)])
-    #     vals = []
-    #     for x_cli in cli:
-
-    #         vals.append({
-    #             'id_partner': x_cli.id,
-    #             'name': x_cli.name,
-    #             'sequence': x_cli.dia_lunes_seq
-    #         })
-    #     print(vals)
-    #     sequence_line.create(vals)
-    #     # self.env['sequence.assign.wizard'].aupdated_information()
-
-    #     action = {
-    #         "type": "ir.actions.act_window",
-    #         "view_mode": "form",
-    #         "res_model": "sequence.assign.wizard",
-    #         "target": "new"
-    #     }
-    #     return action
-
-    # @api.multi
-    # def clean_id(self):
-    #     del id_line[:]
-
-
-
 class WizardAssignSequence(models.Model):
     _name = 'sequence.assign.wizard'
 
@@ -144,6 +107,7 @@ class WizardAssignSequence(models.Model):
     def default_get(self, fields_list):
         global day_of_route
         print(day_of_route)
+        # self.dias = day_of_route
         res = super(WizardAssignSequence, self).default_get(fields_list)
         partner = id_line
         if not partner:
@@ -151,22 +115,62 @@ class WizardAssignSequence(models.Model):
         vals = []
         cliente = self.env['res.partner']
         # for x_cli in cliente.browse(partner):
-        for x_cli in cliente.search([('id','in', partner)],\
-                                    order='dia_lunes_seq asc,\
-                                    dia_martes_seq asc,\
-                                    dia_miercoles_seq asc,\
-                                    dia_viernes_seq asc ,\
-                                    dia_jueves_seq asc,\
-                                    dia_sabado_seq asc'):
-            vals.append((0,0,{
-                'id_partner': x_cli.id,
-                'name': x_cli.name,
-                'sequence': x_cli.dia_lunes_seq,
-            }))
+        if day_of_route == 'lunes':
+            for x_cli in cliente.search([('id','in', partner)],\
+                                        order='dia_lunes_seq asc'):
+                vals.append((0,0,{
+                    'id_partner': x_cli.id,
+                    'name': x_cli.name,
+                    'sequence': x_cli.dia_lunes_seq,
+                }))
+        if day_of_route == 'martes':
+            for x_cli in cliente.search([('id','in', partner)],\
+                                        order='dia_martes_seq asc'):
+                vals.append((0,0,{
+                    'id_partner': x_cli.id,
+                    'name': x_cli.name,
+                    'sequence': x_cli.dia_martes_seq,
+                }))
+        if day_of_route == 'miercoles':
+            for x_cli in cliente.search([('id','in', partner)],\
+                                        order='dia_martes_seq asc'):
+                vals.append((0,0,{
+                    'id_partner': x_cli.id,
+                    'name': x_cli.name,
+                    'sequence': x_cli.dia_miercoles_seq,
+                }))              
+        if day_of_route == 'jueves':
+            for x_cli in cliente.search([('id','in', partner)],\
+                                        order='dia_jueves_seq asc'):
+                vals.append((0,0,{
+                    'id_partner': x_cli.id,
+                    'name': x_cli.name,
+                    'sequence': x_cli.dia_jueves_seq,
+                }))
+        if day_of_route == 'viernes':
+            for x_cli in cliente.search([('id','in', partner)],\
+                                        order='dia_viernes_seq asc'):
+                vals.append((0,0,{
+                    'id_partner': x_cli.id,
+                    'name': x_cli.name,
+                    'sequence': x_cli.dia_viernes_seq,
+                }))
+        if day_of_route == 'sabado':
+            for x_cli in cliente.search([('id','in', partner)],\
+                                        order='dia_sabado_seq asc'):
+                vals.append((0,0,{
+                    'id_partner': x_cli.id,
+                    'name': x_cli.name,
+                    'sequence': x_cli.dia_sabado_seq,
+                }))       
         print(vals)
         res.update(sequence_lines = vals)
-        day_of_route = ''
         return res
+
+    @api.multi
+    def get_day(self):
+        global day_of_route
+        return day_of_route
 
     dias = fields.Selection(
         [('lunes','Lunes'),
@@ -176,35 +180,31 @@ class WizardAssignSequence(models.Model):
         ('viernes','Viernes'),
         ('sabado','Sabado'),
         ('domingo','Domingo')
-        ], default='lunes', string="Dias"
+        ], default=get_day, string="Dias"
     )
     sequence_lines = fields.One2many('sequence.line.wizard','sequence_id','Lineas Sequence')
+
 
     @api.multi
     def assign(self):
         for rec in self.sequence_lines:
             print(rec.id_partner.id, rec.sequence)
-            partner = self.env['res.partner'].browse(self._context.get('active_ids', []))
+            partner = id_line
             clientes = self.env['res.partner'].search([('id', 'in', partner)])
             for part in clientes:
                if rec.id_partner.id == part.id:
-                    if rec.dias == 'lunes':
-                        part.dia_lunes_seq
-                        print(rec.sequence, 'LINE')
-            # for line in rec.sequence_lines:
-                # rec.dia_lunes_seq = rec.sequence
-            # if self.dias == 'martes':
-            #     rec.dia_martes_seq = rec.sequence
-            # if self.dias == 'miercoles':
-            #     rec.dia_miercoles_seq = rec.sequence
-            # if self.dias == 'jueves':
-            #     rec.dia_jueves_seq = rec.sequence
-            # if self.dias == 'viernes':
-            #     rec.dia_viernes_seq = rec.sequence
-            # if self.dias == 'sabado':
-            #     rec.dia_sabado_seq = rec.sequence
-            # if self.dias == 'domingo':
-            #     rec.dia_domingo_seq = rec.sequence
+                    if self.dias == 'lunes':
+                        part.dia_lunes_seq = rec.sequence
+                    if self.dias == 'martes':
+                        part.dia_martes_seq = rec.sequence
+                    if self.dias == 'miercoles':
+                        part.dia_miercoles_seq = rec.sequence
+                    if self.dias == 'jueves':
+                        part.dia_jueves_seq = rec.sequence
+                    if self.dias == 'viernes':
+                        part.dia_viernes_seq = rec.sequence
+                    if self.dias == 'sabado':
+                        part.dia_sabado_seq = rec.sequence
 
 
 class LineSequenceWizard(models.Model):
@@ -244,11 +244,13 @@ class DiasTransientModel(models.TransientModel):
         for rec in partner:
             if rec.id not in id_line:
                   id_line.append(rec.id)
+        view_id = self.env.ref('tracking.sequence_wizard_wizard').id
         action = {
             "type": "ir.actions.act_window",
             "src_model": 'res.partner',
             "key2": 'client_action_multi',
-            "view_mode": "form,tree",
+            "view_mode": "form",
+            "views": [(view_id, 'form')],
             "res_model": "sequence.assign.wizard",
             "target": "new"
         }
