@@ -204,6 +204,11 @@ class PosOrder(models.Model):
             'fecha_entrega' : self.date_order,
             'date_invoice': datetime.date.today()
         })
+        print('************FACT******************')
+        print(Invoice.invoice_line_ids.product_id)
+        for lines_ids in Invoice.invoice_line_ids:
+            lines_ids.update({'cost': lines_ids.product_id.product_tmpl_id.standard_price * lines_ids.uom_id.factor_inv})
+            print (lines_ids.product_id, lines_ids.cost)
         return Invoice.id
 
     @api.multi
@@ -241,7 +246,7 @@ class PosOrder(models.Model):
                             'price_unit': monto or 0,
                             'quantity': 1,
                             'account_id': prd_account_id,
-                            'invoice_id': inv_id,
+                            'invoice_id': inv_id
                         }
                         print("CREAR FACTURA ::::::",curr_invoice_line)
 
