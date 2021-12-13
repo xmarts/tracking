@@ -207,7 +207,9 @@ class PosOrder(models.Model):
         print('************FACT******************')
         print(Invoice.invoice_line_ids.product_id)
         for lines_ids in Invoice.invoice_line_ids:
-            lines_ids.update({'cost': lines_ids.product_id.product_tmpl_id.standard_price * lines_ids.uom_id.factor_inv})
+            lines_ids.update({'cost': lines_ids.product_id.product_tmpl_id.standard_price * lines_ids.uom_id.factor_inv,
+                            'cost_calculo':lines_ids.product_id.product_tmpl_id.standard_price
+                        })
             lines_ids.calculte_cost()
             print (lines_ids.product_id, lines_ids.cost)
         return Invoice.id
